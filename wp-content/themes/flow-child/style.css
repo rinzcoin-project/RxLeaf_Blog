@@ -57,3 +57,12 @@ Template: flow
 .sam-double-ad-container {
     text-align: center;
 }
+.sam-footer-ad-container {
+    text-align: center;
+}
+.sam-footer-ad-container .green-box {
+    max-width: 25%;
+}
+.sam-footer-ad-container > div {
+    display: inline-block;
+}
