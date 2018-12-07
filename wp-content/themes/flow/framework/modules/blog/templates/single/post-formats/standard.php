@@ -31,5 +31,14 @@
 			</div>
 		</div>
 	</div>
+	<div class="sam-double-ad-container">
+	
+		<div class="grey-box left ad-box" ></div>
+		<div class="grey-box center ad-box" ></div>
+		<div class="grey-box right ad-box" ></div>
+
+
+	</div>
 	<?php do_action('flow_elated_before_blog_article_closed_tag'); ?>
+	<div class="ad-banner-space"></div>
 </article>

@@ -13,10 +13,10 @@ Template: flow
     font-size: 2.5em;
 }
 .ad-demo-space {
-    min-height: 250px;
+    width: 300px;
+    height: 250px;
     background: grey;
-    margin: 20px 50px;
-    max-width: 90%;
+    margin: auto;
 }
 .eltd-search-holder.clearfix.eltd-search-open {
     min-height: 50px;
@@ -26,4 +26,34 @@ Template: flow
     height: 80px;
     background: #135D2C;
     margin-bottom: 25px;
+}
+.grey-box {
+    width: 300px;
+    height: 250px;
+    background: grey;
+    margin: auto;
+    margin-bottom: 5px;
+}
+/* a.eltd-btn.eltd-btn-small.eltd-btn-solid.eltd-read-more {
+    display: none;
+} */
+.ad-banner-space {
+    background-color:grey;
+    width:720px;
+    height:100px;
+    margin:auto;
+}
+.grey-box.sam-inpost {
+    width: 300px;
+    height: 600px;
+    margin: 0px;
+    float: right;
+    margin-right: 15px;
+}
+.grey-box.ad-box {
+    display:inline-block;
+    margin:10px
+}
+.sam-double-ad-container {
+    text-align: center;
 }

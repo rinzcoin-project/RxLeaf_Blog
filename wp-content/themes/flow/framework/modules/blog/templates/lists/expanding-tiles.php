@@ -14,6 +14,7 @@
 			endif;
 			?>
 		</div>
+		<div class="ad-banner-space"></div>
 		<?php
 		if(flow_elated_options()->getOptionValue('pagination') == 'yes') {
 			flow_elated_pagination($blog_query->max_num_pages, $blog_page_range, $paged, $blog_type);
