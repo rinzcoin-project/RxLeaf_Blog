@@ -1,0 +1,29 @@
+/*
+Theme Name: Flow Child
+Theme URI: http://flow.elated-themes.com/
+Description: A child theme of Flow Theme
+Author: Elated Themes
+Author URI: http://themeforest.net/user/elated-themes
+Version: 1.0.0
+Template: flow
+*/
+@import url("../flow/style.css");
+.vc-hoverbox-inner h2 {
+    color: white;
+    font-size: 2.5em;
+}
+.ad-demo-space {
+    min-height: 250px;
+    background: grey;
+    margin: 20px 50px;
+    max-width: 90%;
+}
+.eltd-search-holder.clearfix.eltd-search-open {
+    min-height: 50px;
+}
+.green-box {
+    width: 100%;
+    height: 80px;
+    background: #135D2C;
+    margin-bottom: 25px;
+}
