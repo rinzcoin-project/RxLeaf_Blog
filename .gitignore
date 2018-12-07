@@ -8,6 +8,6 @@
 
 
 #Ignore
-wp-config.php
+/wp-config.php
 # Folder to not ignore
 !/wp-content/
