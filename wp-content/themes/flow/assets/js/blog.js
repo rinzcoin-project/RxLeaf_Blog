@@ -38,6 +38,7 @@
         eltdGetPageContent();
         eltdInitTransitions();
         eltdSplitColumnPostHeight();
+        eltdSetExpandableTiles()
     }
 
     /* 
@@ -45,7 +46,7 @@
     */
     function eltdOnWindowLoad() {
         eltdInitBlogMasonry();
-        eltdSetExpandableTiles();
+        // eltdSetExpandableTiles();
         eltdGetInfiniteScrollTriggerPosition();
     }
 

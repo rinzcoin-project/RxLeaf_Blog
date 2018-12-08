@@ -158,8 +158,7 @@ if(!function_exists('flow_elated_loading_spinner_two_rotating_circles')) {
     function flow_elated_loading_spinner_two_rotating_circles() {
         $html = '';
         $html .= '<div class="two_rotating_circles">';
-        $html .= '<div class="dot1"></div>';
-        $html .= '<div class="dot2"></div>';
+        $html .= '<img src="/wp-content/uploads/2018/12/rxleaf-leaf-loader.png" class="sam-loader"/>';
         $html .= '</div>';
 
         return $html;
