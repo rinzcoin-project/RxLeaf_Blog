@@ -1,0 +1,79 @@
+0000.001 (0) Opened log file at time: Fri, 07 Dec 2018 05:29:31 +0000 on http://localhost/rxleaf-blog
+0000.043 (0) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 2.14.2.22 WP: 4.9.8 PHP: 7.2.10 (apache2handler, Windows NT DESKTOP-SAMHS 10.0 build 17134 (Windows 10) AMD64) MySQL: 5.7.23 WPLANG: en_US Server: Apache/2.4.35 (Win64) PHP/7.2.10 safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 6.5M | 4M) multisite: N openssl: OpenSSL 1.1.0i  14 Aug 2018 mcrypt: N LANG:  ZipArchive::addFile: Y
+0000.075 (0) Free space on disk containing Updraft's temporary directory: 21099.6 MB
+0000.125 (0) Tasks: Backup files: 0 (schedule: daily) Backup DB: 1 (schedule: daily)
+0000.214 (0) Requesting semaphore lock (d) (apparently not via scheduler)
+0000.284 (0) Semaphore (d, wp_options) was stuck, set lock time to 2018-12-07 05:29:31
+0000.351 (0) Semaphore (d, wp_options) reset to 1
+0000.443 (0) Set semaphore last lock (d) time to 2018-12-07 05:29:31
+0000.508 (0) Semaphore lock (d) complete
+0000.618 (0) Backup run: resumption=0, nonce=82ca615d4623, begun at=1544160571 (1s ago), job type=backup
+0000.693 (0) Scheduling a resumption (1) after 300 seconds (1544160872) in case this run gets aborted
+0000.789 (0) This backup run is not intended for files - skipping
+0000.825 (0) Beginning creation of database dump (WordPress DB)
+0000.896 (0) Testing: C:\Program Files\MySQL\MySQL Workbench 8.0 CE\mysqldump.exe
+0001.082 (0) Output: /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;\n/*!40103 SET TIME_ZONE='+00:00' */;\n/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;\n/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;\n/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;\n/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;\nDROP TABLE IF EXISTS `wp_options`;\n/*!40101 SET @saved_cs_client     = @@character_set_client */;\n SET character_set_client = utf8mb4 ;\nCREATE TAB (truncated - 1189 bytes total)
+0001.125 (0) Binary mysqldump: error (code: 2)
+0001.235 (0) Table wp_options: Total expected rows (approximate): 270
+0001.345 (0) Table wp_options: Total rows added: 269 in 0.03 seconds
+0001.390 (0) Table wp_options: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_options.table.gz - 127.5 KB)
+0001.527 (0) Table wp_users: Total expected rows (approximate): 1
+0001.563 (0) Table wp_users: Total rows added: 1 in 0.00 seconds
+0001.597 (0) Table wp_users: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_users.table.gz - 0.5 KB)
+0001.734 (0) Table wp_usermeta: Total expected rows (approximate): 34
+0001.805 (0) Table wp_usermeta: Total rows added: 34 in 0.00 seconds
+0001.907 (0) Table wp_usermeta: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_usermeta.table.gz - 1.5 KB)
+0002.012 (0) Table wp_commentmeta: Total expected rows (approximate): 0
+0002.043 (0) Table wp_commentmeta: Total rows added: 0 in 0.00 seconds
+0002.081 (0) Table wp_commentmeta: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_commentmeta.table.gz - 0.4 KB)
+0002.185 (0) Table wp_comments: Total expected rows (approximate): 15
+0002.222 (0) Table wp_comments: Total rows added: 15 in 0.00 seconds
+0002.256 (0) Table wp_comments: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_comments.table.gz - 1.2 KB)
+0002.370 (0) Table wp_links: Total expected rows (approximate): 0
+0002.402 (0) Table wp_links: Total rows added: 0 in 0.00 seconds
+0002.440 (0) Table wp_links: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_links.table.gz - 0.4 KB)
+0002.551 (0) Table wp_postmeta: Total expected rows (approximate): 1114
+0002.631 (0) Table wp_postmeta: Total rows added: 1114 in 0.05 seconds
+0002.673 (0) Table wp_postmeta: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_postmeta.table.gz - 13.7 KB)
+0002.794 (0) Table wp_posts: Total expected rows (approximate): 216
+0002.868 (0) Table wp_posts: Total rows added: 216 in 0.04 seconds
+0002.907 (0) Table wp_posts: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_posts.table.gz - 17.3 KB)
+0003.018 (0) Table wp_term_relationships: Total expected rows (approximate): 181
+0003.059 (0) Table wp_term_relationships: Total rows added: 181 in 0.01 seconds
+0003.100 (0) Table wp_term_relationships: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_term_relationships.table.gz - 0.8 KB)
+0003.243 (0) Table wp_term_taxonomy: Total expected rows (approximate): 37
+0003.279 (0) Table wp_term_taxonomy: Total rows added: 37 in 0.00 seconds
+0003.326 (0) Table wp_term_taxonomy: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_term_taxonomy.table.gz - 0.7 KB)
+0003.426 (0) Table wp_termmeta: Total expected rows (approximate): 0
+0003.461 (0) Table wp_termmeta: Total rows added: 0 in 0.00 seconds
+0003.498 (0) Table wp_termmeta: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_termmeta.table.gz - 0.4 KB)
+0003.603 (0) Table wp_terms: Total expected rows (approximate): 37
+0003.639 (0) Table wp_terms: Total rows added: 37 in 0.01 seconds
+0003.710 (0) Table wp_terms: finishing file (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_terms.table.gz - 0.8 KB)
+0003.911 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_options.table.gz (1/12): adding to final database dump
+0003.989 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_users.table.gz (2/12): adding to final database dump
+0004.051 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_usermeta.table.gz (3/12): adding to final database dump
+0004.084 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_commentmeta.table.gz (4/12): adding to final database dump
+0004.118 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_comments.table.gz (5/12): adding to final database dump
+0004.151 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_links.table.gz (6/12): adding to final database dump
+0004.184 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_postmeta.table.gz (7/12): adding to final database dump
+0004.224 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_posts.table.gz (8/12): adding to final database dump
+0004.264 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_term_relationships.table.gz (9/12): adding to final database dump
+0004.293 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_term_taxonomy.table.gz (10/12): adding to final database dump
+0004.327 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_termmeta.table.gz (11/12): adding to final database dump
+0004.360 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db-table-wp_terms.table.gz (12/12): adding to final database dump
+0004.397 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db.gz: finished writing out complete database file (160 KB)
+0004.676 (0) Total database tables backed up: 12 (backup_2018-12-07-0529_RxLeaf_82ca615d4623-db.gz, size: 167176, sha256)
+0004.809 (0) backup_2018-12-07-0529_RxLeaf_82ca615d4623-db.gz: db: This file has not yet been successfully uploaded: will queue
+0004.842 (0) Saving backup history. Total backup size: 163.3 KB
+0004.909 (0) Requesting upload of the files that have not yet been successfully uploaded (1)
+0005.009 (0) Cloud backup selection (1/1): none with instance (1/1) (last)
+0005.042 (0) No remote despatch: user chose no remote backup service
+0005.109 (0) Recording as successfully uploaded: backup_2018-12-07-0529_RxLeaf_82ca615d4623-db.gz (fa72419dab4e842f98337b074b7ccc8e)
+0005.243 (0) Prune old backups from local store: nothing to do, since the user disabled local deletion and we are using local backups
+0005.276 (0) Resume backup (82ca615d4623, 0): finish run
+0005.376 (0) Decremented the semaphore (d) by 1
+0005.442 (0) Semaphore (d) unlocked
+0005.476 (0) There were no errors in the uploads, so the 'resume' event (1) is being unscheduled
+0005.668 (0) No email will/can be sent - the user has not configured an email address.
+0005.743 (0) The backup apparently succeeded and is now complete

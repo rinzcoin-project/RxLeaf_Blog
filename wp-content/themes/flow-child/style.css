@@ -66,3 +66,77 @@ Template: flow
 .sam-footer-ad-container > div {
     display: inline-block;
 }
+.log-reg-container {
+    float: right;
+}
+#wpuf-login-form p {
+    display: inline-block;
+    font-weight: 800;
+}
+form#loginform {
+    padding: 15px 25px;
+}
+.log-reg-elm {
+    margin: 15px;
+}
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  input[type=submit], input[type=button] {
+    background: #135D2C;
+    padding: 15px 20px 15px 20px;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+}
+input[type=submit]:hover, input[type=button]:hover{
+	background: #0e4822;
+	box-shadow:none;
+	-moz-box-shadow:none;
+	-webkit-box-shadow:none;
+}
+#wpuf-registration-form .wpuf-success {
+    background-color: #dff0d8;
+    border: 1px solid #135D2C;
+    color: #3c763d;
+    padding: 10px;
+    /* margin: 10px 0 20px 0; */
+    width: 50%;
+    margin: auto;
+    font-weight: 800;
+}
+ul.wpuf-form.form-label-above li .wpuf-label {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.wpuf-dashboard-container.sam .wpuf-dashboard-navigation a {
+    text-decoration: none;
+    box-shadow: none;
+    line-height: 35px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: block;
+    padding: 0px 3px;
+}
+nav.wpuf-dashboard-navigation {
+    background: white;
+    padding: 15px;
+    max-width: 150px;
+}
+.wpuf-dashboard-container.sam .wpuf-dashboard-navigation a:hover {
+    background: #135D2C;
+    color: white;
+}
+.wpuf-dashboard-container.sam .wpuf-dashboard-navigation .eltd-active-item a {
+    background: #135D2C;
+    color: white;
+}
+form {
+    color: black !important;
+}
