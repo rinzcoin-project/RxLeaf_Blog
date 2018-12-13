@@ -23,7 +23,7 @@
                         <div class="log-reg-container">
                         <?php if(!is_user_logged_in()): ?>
                             <div class="log-reg-elm">
-                                <a href="/rxleaf-blog/register"><img src="/rxleaf-blog/wp-content/uploads/2018/12/regis.png" alt="register"  width="50px"></a>
+                                <a href="/register"><img src="/wp-content/uploads/2018/12/regis.png" alt="register"  width="50px"></a>
                             </div>
                         <?php endif; ?>
                     </div>
