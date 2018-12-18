@@ -5,7 +5,15 @@
 		},
 		{
 			"path": "plugins"
+		},
+		{
+			"path": "uploads"
+		},
+		{
+			"path": "plugins-old"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
 }
