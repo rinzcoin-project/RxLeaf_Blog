@@ -7,3 +7,5 @@ function flow_child_theme_enqueue_scripts() {
 	wp_enqueue_style( 'childstyle' );
 }
 add_action('wp_enqueue_scripts', 'flow_child_theme_enqueue_scripts', 11);
+
+
