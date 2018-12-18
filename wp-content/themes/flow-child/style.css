@@ -137,6 +137,12 @@ nav.wpuf-dashboard-navigation {
     background: #135D2C;
     color: white;
 }
-form {
+form, textarea {
     color: black !important;
+}
+p.eltd-post-excerpt.eltd-long-excerpt {
+    display: none !important;
+}
+.eltd-logo-wrapper a img {
+    max-width: 15vw;
 }
