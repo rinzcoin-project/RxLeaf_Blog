@@ -44,7 +44,7 @@ Template: flow
     margin:auto;
 }
 .grey-box.sam-inpost {
-    width: 300px;
+    width: 240px;
     height: 600px;
     margin: 0px;
     float: right;
@@ -214,4 +214,20 @@ button#wpuf-account-update-profile {
 }
 .wpuf-dashboard-content {
     display: inline-block;
+}
+.eltd-post-info-wrapper.blog-single-info {
+    max-width: 75%;
+    margin:auto;
+}
+.blog-single-info .eltd-post-info {
+    padding-top:15px !important;
+}
+.blog-single-info .eltd-post-info .eltd-post-info-date {
+    font-size: 16px !important;
+}
+.eltd-post-info .eltd-blog-like .eltd-like{
+    font-size: 16px !important;
+}
+.eltd-post-info a.eltd-post-info-comments {
+    font-size: 16px;
 }
