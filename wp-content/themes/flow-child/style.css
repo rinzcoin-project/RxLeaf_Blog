@@ -128,6 +128,14 @@ nav.wpuf-dashboard-navigation {
     background: white;
     padding: 15px;
     max-width: 150px;
+    float: unset !important;
+}
+.wpuf-dashboard-container.sam nav.wpuf-dashboard-navigation {
+    display: inline-block;
+    vertical-align: top;
+}
+.wpuf-dashboard-container.sam div:not(.mce-edit-area.mce-container.mce-panel.mce-stack-layout-item) {
+    display: inline-block;
 }
 .wpuf-dashboard-container.sam .wpuf-dashboard-navigation a:hover {
     background: #135D2C;
@@ -136,6 +144,9 @@ nav.wpuf-dashboard-navigation {
 .wpuf-dashboard-container.sam .wpuf-dashboard-navigation .eltd-active-item a {
     background: #135D2C;
     color: white;
+}
+.wpuf-dashboard-container .wpuf-dashboard-content {
+    float: unset !important;
 }
 form, textarea {
     color: black !important;
@@ -152,4 +163,55 @@ p.eltd-post-excerpt.eltd-long-excerpt {
 #mega-menu-wrap-main-navigation #mega-menu-main-navigation > li.mega-menu-flyout ul.mega-sub-menu {
     width:unset;
     min-width: 250px;
+}
+
+@media only screen and (max-width: 1600px){
+    .eltd-expandable-tiles .eltd-post-list h4.eltd-post-title {
+        font-size: 12px !important;
+    }
+    p.eltd-post-excerpt.eltd-long-excerpt {
+        display: none !important;
+    }
+    .eltd-blog-holder.eltd-blog-type-expanding-tiles .eltd-blog-list-expandable-item .eltd-blei-upper-wrapper .eltd-post-excerpt.eltd-short-excerpt {
+        display: none !important;
+    }
+}
+a.eltd-btn.eltd-btn-small.eltd-btn-solid.eltd-read-more {
+    display: none;
+}
+input[type="text"] {
+    width: 100%;
+    margin-bottom: 13px;
+    padding: 10px 25px;
+    border: 1px solid #e3dedd;
+    outline: 0;
+    font-family: "Noto Sans",sans-serif;
+    font-size: 12px;
+    line-height: 20px;
+    background-color: transparent;
+    color: #8d8c8c;
+    -webkit-appearance: none;
+    border-radius: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+button#wpuf-account-update-profile {
+    padding: 15px;
+}
+.submit-post ul.wpuf-form li .wpuf-label {
+    width:15%;
+}
+.submit-post ul.wpuf-form li.field-size-large .wpuf-fields {
+    float: unset;
+    width: unset;
+}
+.submit-post {
+    display: inline-block;
+}
+.wpuf-dashboard-content {
+    display: inline-block;
 }
