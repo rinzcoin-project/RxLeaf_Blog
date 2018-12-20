@@ -5,6 +5,7 @@
         security: "",
         gallery_scrolloffset: 100,
         eppathtoscripts: "\/wp-content\/plugins\/youtube-embed-plus\/scripts\/",
+        eppath: "\/wp-content\/plugins\/youtube-embed-plus\/",
         epresponsiveselector: ["iframe.__youtube_prefs_widget__"],
         epdovol: true,
         evselector: 'iframe.__youtube_prefs__[src], iframe[src*="youtube.com/embed/"], iframe[src*="youtube-nocookie.com/embed/"]',
@@ -241,149 +242,152 @@
                         $('.epyt-gallery').each(function ()
                         {
                             var $container = $(this);
-                            var $iframe = $(this).find('iframe, div.__youtube_prefs_gdpr__').first();
+                            if (!$container.data('epytevents') || !$('body').hasClass('block-editor-page'))
+                            {
+                                $container.data('epytevents', '1');
+                                var $iframe = $(this).find('iframe, div.__youtube_prefs_gdpr__').first();
 
-                            var initSrc = $iframe.attr('src');
-                            if (!initSrc)
-                            {
-                                initSrc = $iframe.data('ep-src');
-                            }
-                            var firstId = $(this).find('.epyt-gallery-list .epyt-gallery-thumb').first().data('videoid');
-                            if (typeof (initSrc) !== 'undefined')
-                            {
-                                initSrc = initSrc.replace(firstId, 'GALLERYVIDEOID');
-                                $iframe.data('ep-gallerysrc', initSrc);
-                            }
-                            else if ($iframe.hasClass('__youtube_prefs_gdpr__'))
-                            {
-                                $iframe.data('ep-gallerysrc', '');
-                            }
-                            $container.on('click', '.epyt-gallery-list .epyt-gallery-thumb', function ()
-                            {
-                                $container.find('.epyt-gallery-list .epyt-gallery-thumb').removeClass('epyt-current-video');
-                                $(this).addClass('epyt-current-video');
-                                var vid = $(this).data('videoid');
-                                $container.data('currvid', vid);
-                                var vidSrc = $iframe.data('ep-gallerysrc').replace('GALLERYVIDEOID', vid);
-
-                                var thumbplay = $container.find('.epyt-pagebutton').first().data('thumbplay');
-                                if (thumbplay !== '0' && thumbplay !== 0)
+                                var initSrc = $iframe.attr('src');
+                                if (!initSrc)
                                 {
-                                    if (vidSrc.indexOf('autoplay') > 0)
+                                    initSrc = $iframe.data('ep-src');
+                                }
+                                var firstId = $(this).find('.epyt-gallery-list .epyt-gallery-thumb').first().data('videoid');
+                                if (typeof (initSrc) !== 'undefined')
+                                {
+                                    initSrc = initSrc.replace(firstId, 'GALLERYVIDEOID');
+                                    $iframe.data('ep-gallerysrc', initSrc);
+                                }
+                                else if ($iframe.hasClass('__youtube_prefs_gdpr__'))
+                                {
+                                    $iframe.data('ep-gallerysrc', '');
+                                }
+                                $container.on('click', '.epyt-gallery-list .epyt-gallery-thumb', function ()
+                                {
+                                    $container.find('.epyt-gallery-list .epyt-gallery-thumb').removeClass('epyt-current-video');
+                                    $(this).addClass('epyt-current-video');
+                                    var vid = $(this).data('videoid');
+                                    $container.data('currvid', vid);
+                                    var vidSrc = $iframe.data('ep-gallerysrc').replace('GALLERYVIDEOID', vid);
+
+                                    var thumbplay = $container.find('.epyt-pagebutton').first().data('thumbplay');
+                                    if (thumbplay !== '0' && thumbplay !== 0)
                                     {
-                                        vidSrc = vidSrc.replace('autoplay=0', 'autoplay=1');
+                                        if (vidSrc.indexOf('autoplay') > 0)
+                                        {
+                                            vidSrc = vidSrc.replace('autoplay=0', 'autoplay=1');
+                                        }
+                                        else
+                                        {
+                                            vidSrc += '&autoplay=1';
+                                        }
+
+                                        $iframe.addClass('epyt-thumbplay');
+                                    }
+
+                                    // https://github.com/jquery/jquery-ui/blob/master/ui/scroll-parent.js
+                                    var bodyScrollTop = Math.max($('body').scrollTop(), $('html').scrollTop());
+                                    var scrollNext = $iframe.offset().top - parseInt(_EPYT_.gallery_scrolloffset);
+                                    if (bodyScrollTop > scrollNext)
+                                    {
+                                        $('html, body').animate({
+                                            scrollTop: scrollNext
+                                        }, 500, function ()
+                                        {
+                                            window._EPADashboard_.setVidSrc($iframe, vidSrc);
+                                        });
                                     }
                                     else
                                     {
-                                        vidSrc += '&autoplay=1';
-                                    }
-
-                                    $iframe.addClass('epyt-thumbplay');
-                                }
-
-                                // https://github.com/jquery/jquery-ui/blob/master/ui/scroll-parent.js
-                                var bodyScrollTop = Math.max($('body').scrollTop(), $('html').scrollTop());
-                                var scrollNext = $iframe.offset().top - parseInt(_EPYT_.gallery_scrolloffset);
-                                if (bodyScrollTop > scrollNext)
-                                {
-                                    $('html, body').animate({
-                                        scrollTop: scrollNext
-                                    }, 500, function ()
-                                    {
                                         window._EPADashboard_.setVidSrc($iframe, vidSrc);
-                                    });
-                                }
-                                else
-                                {
-                                    window._EPADashboard_.setVidSrc($iframe, vidSrc);
-                                }
-
-                            }).on('keydown', '.epyt-gallery-list .epyt-gallery-thumb, .epyt-pagebutton', function (e)
-                            {
-                                var code = e.which;
-                                if ((code === 13) || (code === 32))
-                                {
-                                    e.preventDefault();
-                                    $(this).click();
-
-                                }
-                            });
-
-                            $container.on('mouseenter', '.epyt-gallery-list .epyt-gallery-thumb', function ()
-                            {
-                                $(this).addClass('hover');
-                            });
-
-                            $container.on('mouseleave', '.epyt-gallery-list .epyt-gallery-thumb', function ()
-                            {
-                                $(this).removeClass('hover');
-                            });
-
-                            $container.on('click', '.epyt-pagebutton', function ()
-                            {
-                                var pageData = {
-                                    action: 'my_embedplus_gallery_page',
-                                    security: _EPYT_.security,
-                                    options: {
-                                        playlistId: $(this).data('playlistid'),
-                                        pageToken: $(this).data('pagetoken'),
-                                        pageSize: $(this).data('pagesize'),
-                                        columns: $(this).data('epcolumns'),
-                                        showTitle: $(this).data('showtitle'),
-                                        showPaging: $(this).data('showpaging'),
-                                        autonext: $(this).data('autonext'),
-                                        thumbplay: $(this).data('thumbplay')
-                                    }
-                                };
-
-                                var forward = $(this).hasClass('epyt-next');
-                                var currpage = parseInt($container.data('currpage') + "");
-                                currpage += forward ? 1 : -1;
-                                $container.data('currpage', currpage);
-                                $container.find('.epyt-gallery-list').addClass('epyt-loading');
-
-                                $.post(_EPYT_.ajaxurl, pageData, function (response)
-                                {
-                                    $container.find('.epyt-gallery-list').html(response);
-                                    $container.find('.epyt-current').each(function ()
-                                    {
-                                        $(this).text($container.data('currpage'));
-                                    });
-                                    $container.find('.epyt-gallery-thumb[data-videoid="' + $container.data('currvid') + '"]').addClass('epyt-current-video');
-
-                                    if ($container.find('.epyt-pagebutton').first().data('autonext') == '1')
-                                    {
-                                        $container.find('.epyt-gallery-thumb').first().click();
                                     }
 
-                                })
-                                        .fail(function ()
-                                        {
-                                            alert('Sorry, there was an error loading the next page.');
-                                        })
-                                        .always(function ()
-                                        {
-                                            $container.find('.epyt-gallery-list').removeClass('epyt-loading');
+                                }).on('keydown', '.epyt-gallery-list .epyt-gallery-thumb, .epyt-pagebutton', function (e)
+                                {
+                                    var code = e.which;
+                                    if ((code === 13) || (code === 32))
+                                    {
+                                        e.preventDefault();
+                                        $(this).click();
 
-                                            if ($container.find('.epyt-pagebutton').first().data('autonext') != '1')
-                                            {
-                                                // https://github.com/jquery/jquery-ui/blob/master/ui/scroll-parent.js
-                                                var bodyScrollTop = Math.max($('body').scrollTop(), $('html').scrollTop());
-                                                var scrollNext = $container.find('.epyt-gallery-list').offset().top - parseInt(_EPYT_.gallery_scrolloffset);
-                                                if (bodyScrollTop > scrollNext)
-                                                {
-                                                    $('html, body').animate({
-                                                        scrollTop: scrollNext
-                                                    }, 500);
-                                                }
-                                            }
+                                    }
+                                });
 
+                                $container.on('mouseenter', '.epyt-gallery-list .epyt-gallery-thumb', function ()
+                                {
+                                    $(this).addClass('hover');
+                                });
+
+                                $container.on('mouseleave', '.epyt-gallery-list .epyt-gallery-thumb', function ()
+                                {
+                                    $(this).removeClass('hover');
+                                });
+
+                                $container.on('click', '.epyt-pagebutton', function ()
+                                {
+                                    var pageData = {
+                                        action: 'my_embedplus_gallery_page',
+                                        security: _EPYT_.security,
+                                        options: {
+                                            playlistId: $(this).data('playlistid'),
+                                            pageToken: $(this).data('pagetoken'),
+                                            pageSize: $(this).data('pagesize'),
+                                            columns: $(this).data('epcolumns'),
+                                            showTitle: $(this).data('showtitle'),
+                                            showPaging: $(this).data('showpaging'),
+                                            autonext: $(this).data('autonext'),
+                                            thumbplay: $(this).data('thumbplay')
+                                        }
+                                    };
+
+                                    var forward = $(this).hasClass('epyt-next');
+                                    var currpage = parseInt($container.data('currpage') + "");
+                                    currpage += forward ? 1 : -1;
+                                    $container.data('currpage', currpage);
+                                    $container.find('.epyt-gallery-list').addClass('epyt-loading');
+
+                                    $.post(_EPYT_.ajaxurl, pageData, function (response)
+                                    {
+                                        $container.find('.epyt-gallery-list').html(response);
+                                        $container.find('.epyt-current').each(function ()
+                                        {
+                                            $(this).text($container.data('currpage'));
                                         });
+                                        $container.find('.epyt-gallery-thumb[data-videoid="' + $container.data('currvid') + '"]').addClass('epyt-current-video');
 
-                            });
+                                        if ($container.find('.epyt-pagebutton').first().data('autonext') == '1')
+                                        {
+                                            $container.find('.epyt-gallery-thumb').first().click();
+                                        }
 
+                                    })
+                                            .fail(function ()
+                                            {
+                                                alert('Sorry, there was an error loading the next page.');
+                                            })
+                                            .always(function ()
+                                            {
+                                                $container.find('.epyt-gallery-list').removeClass('epyt-loading');
+
+                                                if ($container.find('.epyt-pagebutton').first().data('autonext') != '1')
+                                                {
+                                                    // https://github.com/jquery/jquery-ui/blob/master/ui/scroll-parent.js
+                                                    var bodyScrollTop = Math.max($('body').scrollTop(), $('html').scrollTop());
+                                                    var scrollNext = $container.find('.epyt-gallery-list').offset().top - parseInt(_EPYT_.gallery_scrolloffset);
+                                                    if (bodyScrollTop > scrollNext)
+                                                    {
+                                                        $('html, body').animate({
+                                                            scrollTop: scrollNext
+                                                        }, 500);
+                                                    }
+                                                }
+
+                                            });
+
+                                });
+                            }
                         });
-                        
+
                         $('button.__youtube_prefs_gdpr__').on('click', function (e)
                         {
                             e.preventDefault();
@@ -393,6 +397,7 @@
                                 window.top.location.reload();
                             }
                         });
+
                     }
                 };
     }

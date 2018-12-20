@@ -6,8 +6,8 @@
   Description: Export and Import User/Customers details From and To your WordPress/WooCommerce.
   Author: WebToffee
   Author URI: https://www.webtoffee.com/product/wordpress-users-woocommerce-customers-import-export/
-  Version: 1.2.0
-  WC tested up to: 3.5.1
+  Version: 1.2.1
+  WC tested up to: 3.5.2
   Text Domain: wf_customer_import_export
   License: GPLv3
   License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -38,7 +38,7 @@ if( !defined('WF_CUSTOMER_IMP_EXP_ID') )
 
 if( !defined('WF_CUSTOMER_IMP_EXP_VERSION') )
 {
-	define("WF_CUSTOMER_IMP_EXP_VERSION", "1.2.0");
+	define("WF_CUSTOMER_IMP_EXP_VERSION", "1.2.1");
 }
 
 

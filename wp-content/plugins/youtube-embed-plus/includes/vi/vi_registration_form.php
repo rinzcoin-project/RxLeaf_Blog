@@ -30,10 +30,21 @@
 </div>
 <div class="vi-demo-col-content">
     <div class="vi-demo">
+        <?php
+        if (self::vi_script_setup_done() && !self::vi_last_login_valid())
+        {
+            ?>
+            <div class="login-expire">
+                For your security, your session expires every 30 days. Please login to vi again to view your settings.
+            </div>
+            <?php
+        }
+        ?>
         <p class="vi-demo-lede">
             You now have the option to make money embedding quality video ads that offer up to 10 times higher CPMs than display advertising. The ads that you will embed are privacy/GDPR friendly,
             powered by <img class="vi-logo-text" alt="vi" src="<?php echo plugins_url(self::$folder_name . '/images/vi_logo.svg'); ?>">
-            <a href="https://www.vi.ai/publisher-video-monetization/?aid=WP_embedplus&utm_source=Wordpress&utm_medium=WP_embedplus" target="_blank">video intelligence</a>,
+            video intelligence,
+            <!--            <a href="https://www.vi.ai/publisher-video-monetization/?aid=WP_embedplus&utm_source=Wordpress&utm_medium=WP_embedplus" target="_blank">video intelligence</a>,-->
             completely separate from your YouTube embeds, and can provide extra income on top of revenue from your current ads.
         </p>
         <p>
@@ -49,8 +60,8 @@
         <div class="ytvi-step ytvi-step-1">
             <div class="ytvi-step-1--form">
                 <div class="side-signup ytprefs-ajax-form">
-                    <h1>Sign up with vi.ai</h1>
-                    <h2>Join 30,000+ publishers</h2>
+                    <h1>Start earning today</h1>
+                    <h2>Earn 10x higher CPMs</h2>
                     <p class="description">Where should we send your welcome and revenue info?</p>
                     <p>
                         <input class="textinput regular-text ytvi-register-email" type="text" placeholder="Your email" />
@@ -67,8 +78,8 @@
                     </p>
                 </div>
                 <div class="side-login ytprefs-ajax-form">
-                    <h1>Log in to vi.ai</h1>
-                    <h2>Earn 10x higher CPMs</h2>
+                    <h1>Log in to vi</h1>
+                    <h2>Join 40,000+ publishers</h2>
                     <p class="description">Already signed up? Login here using the info from your welcome email.</p>
                     <p>
                         <input class="textinput regular-text ytvi-login-email" type="text" placeholder="Your email" />
@@ -79,7 +90,6 @@
                     <p>
                         <input class="button-primary ytvi-step-1--submit-login ytprefs-ajax-form--submit" type="button" value="Log In &raquo;">
                         <a class="vi-forgot-pw" href="https://dashboard.vi.ai/resetPassword/" target="_blank">Forgot Password?</a>
-                        <input type="hidden" value="" class="ytvi-login-adstxt" />
                     </p>
                 </div>
                 <div class="vi-contact-support">
@@ -102,12 +112,12 @@
                     <ol>
                         <li><strong>Fill out</strong> the below</li>
                         <li><strong>Check your email</strong> for a confirmation link</li>
-                        <li><strong>Come back</strong> and
+                        <li><strong>Come right back here</strong> after creating your password and
                             <?php
                             $curr_screen = get_current_screen();
-                            echo strpos($curr_screen->id, 'youtube-ep-vi') !== false ? 'refresh this page' : '<a target="_blank" href="' . admin_url('admin.php?page=youtube-ep-vi') . '">click here</a>'
-                            ?> to login
-                        </li>                            
+                            echo strpos($curr_screen->id, 'youtube-ep-vi') !== false || strpos($curr_screen->id, 'youtube-my-preferences') !== false ? 'refresh this page' : '<a target="_blank" href="' . admin_url('admin.php?page=youtube-ep-vi') . '">click here</a>'
+                            ?> to login below
+                        </li>
                     </ol>
                 </div>
                 <iframe frameborder="0"></iframe>

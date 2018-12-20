@@ -2,6 +2,38 @@ window._EPYTWIZ_ = window._EPYTWIZ_ || {};
 (function ($)
 {
 
+    $.fn.followTo = function (pos, startTop)
+    {
+        var $this = this,
+                $window = $(window);
+
+        $window.scroll(function (e)
+        {
+            if ($window.scrollTop() > pos)
+            {
+                $this.css({
+                    position: 'absolute',
+                    top: pos
+                });
+            }
+            else
+            {
+                $this.css({
+                    position: 'fixed',
+                    top: startTop
+                });
+            }
+        });
+    };
+
+    window._EPYTWIZ_.getUrlParameter = function (name)
+    {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(window.location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
     window._EPYTWIZ_.selectText = window._EPYTWIZ_.selectText || function (ele)
     {
         if (document.selection)
@@ -123,7 +155,8 @@ window._EPYTWIZ_ = window._EPYTWIZ_ || {};
         {
             var targetdomain = window.location.toString().split("/")[0] + "//" + window.location.toString().split("/")[2];
             var embedline = $(this).attr("rel");
-            parent.postMessage("youtubeembedplus|" + embedline, targetdomain);
+            var gbclientId = window._EPYTWIZ_.getUrlParameter('clientId');
+            parent.postMessage("youtubeembedplus|" + embedline + (gbclientId ? '|clientId=' + gbclientId : ''), targetdomain);
         });
 
         $epyt_wiz_wrap.on('click', '.resultdiv .load-movie', function ()

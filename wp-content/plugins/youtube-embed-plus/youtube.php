@@ -3,7 +3,7 @@
   Plugin Name: YouTube
   Plugin URI: https://www.embedplus.com/dashboard/pro-easy-video-analytics.aspx?ref=plugin
   Description: YouTube Embed and YouTube Gallery WordPress Plugin. Embed a responsive video, YouTube channel, playlist gallery, or live stream
-  Version: 12.1
+  Version: 13.0
   Author: EmbedPlus Team
   Author URI: https://www.embedplus.com
  */
@@ -34,7 +34,7 @@ class YouTubePrefs
 
     public static $folder_name = 'youtube-embed-plus';
     public static $curltimeout = 30;
-    public static $version = '12.1';
+    public static $version = '13.0';
     public static $opt_version = 'version';
     public static $optembedwidth = null;
     public static $optembedheight = null;
@@ -151,6 +151,7 @@ class YouTubePrefs
     public static $opt_vi_hide_monetize_tab = 'vi_hide_monetize_tab';
     public static $opt_vi_endpoints = 'vi_endpoints';
     public static $opt_vi_token = 'vi_token';
+    public static $opt_vi_last_login = 'vi_last_login';
     public static $opt_vi_adstxt = 'vi_adstxt';
     public static $opt_vi_js_settings = 'vi_js_settings';
     public static $opt_vi_js_script = 'vi_js_script';
@@ -249,6 +250,7 @@ class YouTubePrefs
         add_action('admin_enqueue_scripts', array(get_class(), 'admin_enqueue_scripts'), 10, 1);
         /////////////////////////////////////
         include_once(EPYTVI_INCLUDES_PATH . 'vi_actions.php');
+        include_once(EPYTGB_INCLUDES_PATH . 'gutenberg_hooks.php');
     }
 
     public static function separate_version_message()
@@ -1428,7 +1430,7 @@ class YouTubePrefs
         $txtprev = self::$alloptions[self::$opt_gallery_customarrows] ? self::$alloptions[self::$opt_gallery_customprev] : _('Prev');
         $pagination .= '<div tabindex="0" role="button" class="epyt-pagebutton epyt-prev ' . (empty($prevPageToken) ? ' hide ' : '') . '" data-q="' . esc_attr($options->q)
                 . '" data-pagetoken="' . esc_attr($prevPageToken)
-                . '"><div class="arrow">&laquo;</div> <div>' . $txtprev . '</div></div>';
+                . '"><div class="epyt-arrow">&laquo;</div> <div>' . $txtprev . '</div></div>';
 
 
         $pagination .= '<div class="epyt-pagenumbers ' . ($totalPages > 1 ? '' : 'hide') . '">';
@@ -1438,7 +1440,7 @@ class YouTubePrefs
         $txtnext = self::$alloptions[self::$opt_gallery_customarrows] ? self::$alloptions[self::$opt_gallery_customnext] : _('Next');
         $pagination .= '<div tabindex="0" role="button" class="epyt-pagebutton epyt-next' . (empty($nextPageToken) ? ' hide ' : '') . '" data-q="' . esc_attr($options->q)
                 . '" data-pagetoken="' . esc_attr($nextPageToken)
-                . '"><div>' . $txtnext . '</div> <div class="arrow">&raquo;</div></div>';
+                . '"><div>' . $txtnext . '</div> <div class="epyt-arrow">&raquo;</div></div>';
 
         $pagination .= '<div class="epyt-loader"><img alt="loading" width="16" height="11" src="' . plugins_url('images/gallery-page-loader.gif', __FILE__) . '"></div>';
         $pagination .= '</div>';
@@ -1494,7 +1496,7 @@ class YouTubePrefs
         return false;
     }
 
-    public static function media_button_wizard()
+    public static function is_restrict_wizard()
     {
         $curr_user = wp_get_current_user();
         if (
@@ -1502,6 +1504,15 @@ class YouTubePrefs
                 && isset(self::$alloptions[self::$opt_restrict_wizard]) && self::$alloptions[self::$opt_restrict_wizard] == 1 // restricting
                 && is_array(self::$alloptions[self::$opt_restrict_wizard_roles]) && !self::user_in_roles_any($curr_user, self::$alloptions[self::$opt_restrict_wizard_roles])
         )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public static function media_button_wizard()
+    {
+        if (self::is_restrict_wizard())
         {
             return;
         }
@@ -1629,6 +1640,7 @@ class YouTubePrefs
                     security: "<?php echo wp_create_nonce('embedplus-nonce'); ?>",
                     gallery_scrolloffset: <?php echo intval(self::$alloptions[self::$opt_gallery_scrolloffset]) ?>,
                     eppathtoscripts: "<?php echo plugins_url('scripts/', __FILE__); ?>",
+                    eppath: "<?php echo plugins_url('/', __FILE__); ?>",
                     epresponsiveselector: <?php echo self::get_responsiveselector(); ?>,
                     version: "<?php echo esc_attr(self::$alloptions[self::$opt_version]) ?>",
                     epdovol: true,
@@ -1736,6 +1748,7 @@ class YouTubePrefs
         $_vi_hide_monetize_tab = 0;
         $_vi_endpoints = '';
         $_vi_token = '';
+        $_vi_last_login = date('Y-m-d H:i:s', strtotime('2000-01-01'));
         $_vi_adstxt = '';
         $_vi_js_settings = self::$vi_dft_js_settings;
         $_vi_js_script = '';
@@ -1818,6 +1831,7 @@ class YouTubePrefs
             $_vi_hide_monetize_tab = self::tryget($arroptions, self::$opt_vi_hide_monetize_tab, $_vi_hide_monetize_tab);
             $_vi_endpoints = self::tryget($arroptions, self::$opt_vi_endpoints, $_vi_endpoints);
             $_vi_token = self::tryget($arroptions, self::$opt_vi_token, $_vi_token);
+            $_vi_last_login = self::tryget($arroptions, self::$opt_vi_last_login, $_vi_last_login);
             $_vi_adstxt = self::tryget($arroptions, self::$opt_vi_adstxt, $_vi_adstxt);
             $_vi_js_settings = self::tryget($arroptions, self::$opt_vi_js_settings, self::$vi_dft_js_settings);
             $_vi_js_script = self::tryget($arroptions, self::$opt_vi_js_script, $_vi_js_script);
@@ -1902,6 +1916,7 @@ class YouTubePrefs
             self::$opt_vi_hide_monetize_tab => $_vi_hide_monetize_tab,
             self::$opt_vi_endpoints => $_vi_endpoints,
             self::$opt_vi_token => $_vi_token,
+            self::$opt_vi_last_login => $_vi_last_login,
             self::$opt_vi_adstxt => $_vi_adstxt,
             self::$opt_vi_js_settings => $_vi_js_settings,
             self::$opt_vi_js_script => $_vi_js_script,
@@ -1971,7 +1986,7 @@ class YouTubePrefs
         $currfilter = current_filter();
         if (preg_match(self::$justurlregex, $content))
         {
-            return self::get_html(array($content), $currfilter == 'widget_text' ? false : true);
+            return self::get_html(array($content), strpos($currfilter, 'widget_text') === 0 ? false : true);
         }
         return '';
     }
@@ -2207,7 +2222,7 @@ class YouTubePrefs
                 . '" data-showpaging="' . intval($options->showPaging)
                 . '" data-autonext="' . intval($options->autonext)
                 . '" data-thumbplay="' . intval($options->thumbplay)
-                . '"><div class="arrow">&laquo;</div> <div>' . $txtprev . '</div></div>';
+                . '"><div class="epyt-arrow">&laquo;</div> <div>' . $txtprev . '</div></div>';
 
 
         $pagination .= '<div class="epyt-pagenumbers ' . ($totalPages > 1 ? '' : 'hide') . '">';
@@ -2223,7 +2238,7 @@ class YouTubePrefs
                 . '" data-showpaging="' . intval($options->showPaging)
                 . '" data-autonext="' . intval($options->autonext)
                 . '" data-thumbplay="' . intval($options->thumbplay)
-                . '"><div>' . $txtnext . '</div> <div class="arrow">&raquo;</div></div>';
+                . '"><div>' . $txtnext . '</div> <div class="epyt-arrow">&raquo;</div></div>';
 
         $pagination .= '<div class="epyt-loader"><img alt="loading" width="16" height="11" src="' . plugins_url('images/gallery-page-loader.gif', __FILE__) . '"></div>';
         $pagination .= '</div>';
@@ -2486,8 +2501,9 @@ class YouTubePrefs
             $finalparams['autoplay'] = 0;
         }
 
-        $code1 = '<iframe ' . $centercode . ' id="_ytid_' . rand(10000, 99999) . '" width="' . self::$defaultwidth . '" height="' . self::$defaultheight .
-                '" src="https://www.' . $youtubebaseurl . '.com/embed/' . $videoidoutput . '?';
+        $code1 = '<iframe ' . $centercode . ' id="_ytid_' . rand(10000, 99999) . '" width="' . self::$defaultwidth . '" height="' . self::$defaultheight . '" ' .
+                ' data-origwidth="' . self::$defaultwidth . '" data-origheight="' . self::$defaultheight . '" ' .
+                ' src="https://www.' . $youtubebaseurl . '.com/embed/' . $videoidoutput . '?';
         $code2 = '" class="__youtube_prefs__' . ($iscontent ? '' : ' __youtube_prefs_widget__') .
                 '"' . $voloutput . $acctitle . $galleryid_ifm_data . ' allow="autoplay; encrypted-media" allowfullscreen data-no-lazy="1" data-skipgform_ajax_framebjll=""></iframe>';
 
@@ -2846,13 +2862,13 @@ class YouTubePrefs
         $new_pointer_content .= '<p>'; // ooopointer
         if (!(self::$alloptions[self::$opt_pro] && strlen(trim(self::$alloptions[self::$opt_pro])) > 0))
         {
-            //$new_pointer_content .= "This version improves the admin interface, and includes a new optional feature for users that want to monetize their sites through <a target=\"_blank\" href=\"https://www.vi.ai?aid=WP_embedplus&utm_source=Wordpress&utm_medium=WP_embedplus\">contextual video &raquo;</a> (Free and <a target=_blank href=" . self::$epbase . '/dashboard/pro-easy-video-analytics.aspx?ref=frompointer' . ">Pro &raquo;</a>).";
-            $new_pointer_content .= "This update includes:<ul class=ul-disc><li>Improved autoplay compatibility</li><li>Improved sign-up process for the <a target=\"_blank\" href=\"" . admin_url('admin.php?page=youtube-ep-vi') . "\">new monetization feature &raquo;</a></li></ul>";
+            $new_pointer_content .= "This update is compatible with the WordPress 5.0 Gutenberg block editor, for embedding YouTube videos, galleries, and livestreams in both Free and <a target=_blank href=" . self::$epbase . '/dashboard/pro-easy-video-analytics.aspx?ref=frompointer' . ">Pro versions &raquo;</a> This update also stays backwards-compatible with the classic editor.";
+            //$new_pointer_content .= "This version fixes a couple gallery bugs and improves ads.txt management for the monetization feature. <a rel=\"#jumpmonetize\" class=\"epyt-jumptab\" href=\"" . admin_url('admin.php?page=youtube-my-preferences#jumpmonetize') . "\">Login here to see &raquo;</a></li></ul>";
         }
         else
         {
-            //$new_pointer_content .= "This version improves the admin interface, and includes a new optional feature for users that want to monetize their sites through <a target=\"_blank\" href=\"https://www.vi.ai?aid=WP_embedplus&utm_source=Wordpress&utm_medium=WP_embedplus\">contextual video &raquo;</a> (Free and <a target=_blank href=" . self::$epbase . '/dashboard/pro-easy-video-analytics.aspx?ref=frompointer' . ">Pro &raquo;</a>)." . '<strong>Important message to YouTube Pro users</strong>: From version 11.7 onward, you must <a href="https://www.embedplus.com/youtube-pro/download/?prokey=' . esc_attr(self::$alloptions[self::$opt_pro]) . '" target="_blank">download the separate plugin here</a> to regain your Pro features. All your settings will automatically migrate after installing the separate Pro download. Thank you for your support and patience during this transition.';
-            $new_pointer_content .= "This update includes:<ul class=ul-disc><li>Improved autoplay compatibility</li><li>Improved sign-up process for the <a target=\"_blank\" href=\"https://www.vi.ai?aid=WP_embedplus&utm_source=Wordpress&utm_medium=WP_embedplus\">new monetization feature &raquo;</a></li></ul>" . '<strong>Important message to YouTube Pro users</strong>: From version 11.7 onward, you must <a href="https://www.embedplus.com/youtube-pro/download/?prokey=' . esc_attr(self::$alloptions[self::$opt_pro]) . '" target="_blank">download the separate plugin here</a> to regain your Pro features. All your settings will automatically migrate after installing the separate Pro download. Thank you for your support and patience during this transition.';
+            $new_pointer_content .= "This update is compatible with the WordPress 5.0 Gutenberg block editor, for embedding YouTube videos, galleries, and livestreams in both Free and <a target=_blank href=" . self::$epbase . '/dashboard/pro-easy-video-analytics.aspx?ref=frompointer' . ">Pro versions &raquo;</a> This update also stays backwards-compatible with the classic editor.";
+            $new_pointer_content .= ' <strong>Important message to YouTube Pro users</strong>: From version 11.7 onward, you must <a href="https://www.embedplus.com/youtube-pro/download/?prokey=' . esc_attr(self::$alloptions[self::$opt_pro]) . '" target="_blank">download the separate plugin here</a> to regain your Pro features. All your settings will automatically migrate after installing the separate Pro download. Thank you for your support and patience during this transition.';
         }
         $new_pointer_content .= '</p>';
 
@@ -2879,7 +2895,7 @@ class YouTubePrefs
         <h3 class="nav-tab-wrapper">
             <a class="nav-tab nav-tab-active" href="#jumpdefaults">Defaults</a>
             <a class="nav-tab" href="#jumpapikey">API Key</a>
-            <a class="nav-tab" href="#jumpwiz">Wizard</a>
+            <a class="nav-tab" href="#jumpwiz">Wizard <sup class="orange">new</sup></a>
             <a class="nav-tab" href="#jumpgallery">Galleries</a>
             <a class="nav-tab href-link" style="background-color: #daebf1;" rel="#jumpupgrade" target="_blank" href="<?php echo self::$epbase . "/dashboard/pro-easy-video-analytics.aspx?ref=protab" ?>">Upgrade?</a>
             <?php
@@ -2949,8 +2965,6 @@ class YouTubePrefs
             $new_options[self::$opt_playsinline] = self::postchecked(self::$opt_playsinline) ? 1 : 0;
             $new_options[self::$opt_origin] = self::postchecked(self::$opt_origin) ? 1 : 0;
             $new_options[self::$opt_controls] = self::postchecked(self::$opt_controls) ? 2 : 0;
-            $new_options[self::$opt_autohide] = self::postchecked(self::$opt_autohide) ? 1 : 2;
-            $new_options[self::$opt_theme] = self::postchecked(self::$opt_theme) ? 'dark' : 'light';
             $new_options[self::$opt_color] = self::postchecked(self::$opt_color) ? 'red' : 'white';
             $new_options[self::$opt_nocookie] = self::postchecked(self::$opt_nocookie) ? 1 : 0;
             $new_options[self::$opt_gdpr_consent] = self::postchecked(self::$opt_gdpr_consent) ? 1 : 0;
@@ -3350,6 +3364,21 @@ class YouTubePrefs
                 min-height: 250px !important;
             }
 
+            section#jumpwiz hr {
+                margin: 20px 0 20px 0;
+            }
+            .wiztab-screenshots {
+                float: right;
+                max-width: 50%;
+                height: auto;
+                clear: right;
+                margin-left: 30px;
+                margin-bottom: 15px;
+                display: block;
+                border: 5px solid #dddddd;
+            }
+
+
         </style>
         <div class="wrap wrap-ytprefs">
             <h1><img alt="YouTube Plugin Icon" src="<?php echo plugins_url('images/youtubeicon16.png', __FILE__) ?>" /> <?php echo __('YouTube Settings') ?></h1>
@@ -3437,11 +3466,19 @@ class YouTubePrefs
                             </p>
                             <p>
                                 <input name="<?php echo self::$opt_rel; ?>" id="<?php echo self::$opt_rel; ?>" <?php checked($all[self::$opt_rel], 1); ?> type="checkbox" class="checkbox">
-                                <label for="<?php echo self::$opt_rel; ?>"><?php _e('<b class="chktitle">Related Videos:</b> Show related and recommended videos during pause and at the end of playback.') ?></label>
+                                <label for="<?php echo self::$opt_rel; ?>">
+                                    <b class="chktitle">Related Videos:</b>
+                                    <strong>Turning off this feature is now <a target="_blank" href="https://developers.google.com/youtube/player_parameters#Revision_History">deprecated by YouTube</a>. Related videos will always appear.</strong>
+                                    Show related and recommended videos during pause and at the end of playback.
+                                </label>
                             </p>
                             <p>
                                 <input name="<?php echo self::$opt_showinfo; ?>" id="<?php echo self::$opt_showinfo; ?>" <?php checked($all[self::$opt_showinfo], 1); ?> type="checkbox" class="checkbox">
-                                <label for="<?php echo self::$opt_showinfo; ?>"><?php _e('<b class="chktitle">Show Title:</b> Show the video title and other info.') ?></label>
+                                <label for="<?php echo self::$opt_showinfo; ?>">
+                                    <b class="chktitle">Show Title:</b>
+                                    <strong>Turning off this feature is now <a target="_blank" href="https://developers.google.com/youtube/player_parameters#Revision_History">deprecated by YouTube</a>. Title and info will always appear.</strong>
+                                    Show the video title and other info.
+                                </label>
                             </p>
                             <p>
                                 <input name="<?php echo self::$opt_fs; ?>" id="<?php echo self::$opt_fs; ?>" <?php checked($all[self::$opt_fs], 1); ?> type="checkbox" class="checkbox">
@@ -3450,10 +3487,6 @@ class YouTubePrefs
                             <p>
                                 <input name="<?php echo self::$opt_acctitle; ?>" id="<?php echo self::$opt_acctitle; ?>" <?php checked($all[self::$opt_acctitle], 1); ?> type="checkbox" class="checkbox">
                                 <label for="<?php echo self::$opt_acctitle; ?>"><b class="chktitle">Accessible Title Attributes: </b> Improve accessibility by using title attributes for screen reader support. It should help your site pass functional accessibility evaluations (FAE). </label>
-                            </p>
-                            <p>
-                                <input name="<?php echo self::$opt_theme; ?>" id="<?php echo self::$opt_theme; ?>" <?php checked($all[self::$opt_theme], 'dark'); ?> type="checkbox" class="checkbox">
-                                <label for="<?php echo self::$opt_theme; ?>"><?php _e('<b class="chktitle strike">Dark Theme:</b> Use the dark theme (uncheck to use light theme). <b>Note: YouTube has deprecated this option and will always use the dark theme.</b>') ?></label>
                             </p>
                             <p>
                                 <input name="<?php echo self::$opt_color; ?>" id="<?php echo self::$opt_color; ?>" <?php checked($all[self::$opt_color], 'red'); ?> type="checkbox" class="checkbox">
@@ -3498,12 +3531,6 @@ class YouTubePrefs
                             <p>
                                 <input name="<?php echo self::$opt_controls; ?>" id="<?php echo self::$opt_controls; ?>" <?php checked($all[self::$opt_controls], 2); ?> type="checkbox" class="checkbox">
                                 <label for="<?php echo self::$opt_controls; ?>"><b class="chktitle">Show Controls:</b> Show the player's control bar. Unchecking this option creates a cleaner look but limits what your viewers can control (play position, volume, etc.).</label>
-                            </p>
-                            <p>
-                                <input name="<?php echo self::$opt_autohide; ?>" id="<?php echo self::$opt_autohide; ?>" <?php checked($all[self::$opt_autohide], 1); ?> type="checkbox" class="checkbox">
-                                <label for="<?php echo self::$opt_autohide; ?>"><b class="chktitle strike">Autohide Controls:</b> Slide away the control bar after the video starts playing. It will automatically slide back in again if you mouse over the video. If you unchecked "Show Controls" above, then what you select for Autohide does not matter since there are no controls to even hide.
-                                    <strong>Note: YouTube has deprecated this option, and will always autohide the controls.</strong>
-                                </label>
                             </p>
                             <p>
                                 <input name="<?php echo self::$opt_defaultvol; ?>" id="<?php echo self::$opt_defaultvol; ?>" <?php checked($all[self::$opt_defaultvol], 1); ?> type="checkbox" class="checkbox">                        
@@ -3638,21 +3665,52 @@ class YouTubePrefs
 
                     <section class="pattern" id="jumpwiz">
                         <h2>Visual YouTube Wizard Directions</h2>
-
                         <p>
-                            While you're writing your post or page, you have the ability to search YouTube and insert videos, playlists, and even galleries right from your editor tab.
-                            Simply click the <img style="vertical-align: text-bottom;" src="<?php echo plugins_url('images/wizbuttonbig.png', __FILE__) ?>"> wizard button found above 
-                            your post editor to start the wizard (see image below to locate this button).  There, you'll have several options for different types of embeds.
+                            While you're writing your post or page, you have the ability to search YouTube and insert videos, playlists, and even galleries right from your editor. Below are directions for each type of WordPress editor.
+                        </p>
+                        <h3>Classic Editor</h3>
+                        <img class="wiztab-screenshots" src="<?php echo plugins_url('images/ss-wiz-classic.png', __FILE__) ?>">
+                        <p>
+                            Simply click the YouTube wizard button found above 
+                            your post editor to start the wizard (see image to the right to locate this button).  There, you'll have several options for different types of embeds.
                             Each embed code will have an "Insert Into Editor" button that you can click to directly embed the desired video link to your post without having to copy and paste.
                         </p>
+                        <hr class="clearboth">
+                        <h3>Widgets</h3>
+                        <img class="wiztab-screenshots" src="<?php echo plugins_url('images/ss-wiz-widget.png', __FILE__) ?>">
                         <p>
-                            <a href="<?php echo self::$epbase ?>/dashboard/pro-easy-video-analytics.aspx?ref=wizdirections" target="_blank" style=""><b>Even more options are available to PRO users!</b></a> If you download our PRO version, you can simply click the <a href="<?php echo self::$epbase . '/dashboard/pro-easy-video-analytics.aspx?ref=wizdirections' ?>" target="_blank" class="button-primary cuz">&#9658; Customize</a> button within the wizard to further personalize your embeds without having to enter special codes yourself. The customize button will allow you to easily override most of the above default options for that embed.
-                            <br>
-                            <br>
-                            <a href="<?php echo self::$epbase ?>/dashboard/pro-easy-video-analytics.aspx?ref=wizdirections" target="_blank" style="text-decoration: none;"><img style="width: 500px; margin: 0 auto; display: block;" src="<?php echo plugins_url('images/ssprowizard.png', __FILE__) ?>" ></a>
+                            To insert a video in a widget area, use the Text widget that comes with WordPress. Simply click the YouTube wizard button found above 
+                            the widget textbox to start the wizard (see image to the right to locate this button).  There, you'll have several options for different types of embeds.
+                            Each embed code will have an "Insert Into Editor" button that you can click to directly embed the desired video link to your post without having to copy and paste.
                         </p>
-
+                        <hr class="clearboth"/>
+                        <h3>Gutenberg Block Editor</h3>
+                        <img class="wiztab-screenshots" src="<?php echo plugins_url('images/ss-wiz-gbblock.png', __FILE__) ?>">
+                        <p>
+                            Click on the (+) sign for the block editor list. The YouTube Wizard block is located under the "Embeds" category (make sure you choose "YouTube <strong>Wizard</strong>" not "YouTube").
+                            Then your page will show a placeholder where you can launch the wizard. In the wizard, you'll have several options for different types of embeds.
+                            Each embed code will have an "Insert Into Editor" button that you can click to directly embed the desired video link to your post without having to copy and paste.
+                            You'll also be able to preview and interact with your embed without having to view the page on the front end.
+                        </p>
+                        <hr class="clearboth"/>
+                        <h3>Gutenberg Classic Block</h3>
+                        <img class="wiztab-screenshots" src="<?php echo plugins_url('images/ss-wiz-gbclassicblock.png', __FILE__) ?>">
+                        <p>
+                            Are you using Gutenberg but not quite ready to start using all the blocks? Well, you can still access our wizard if you wish to continue using Gutenberg's Classic block.
+                            The Classic block brings back the former editor you used before WordPress, and so we've added a button to it you can use to launch the wizard (see example on the right).
+                            Simply click the  wizard button to start the wizard. There, you'll have several options for different types of embeds.
+                            Each embed code will have an "Insert Into Editor" button that you can click to directly embed the desired video link to your post without having to copy and paste.
+                        </p>
+                        <hr class="clearboth"/>
+                        <h3>Pro Customization</h3>
+                        <img class="wiztab-screenshots" src="<?php echo plugins_url('images/ssprowizard.png', __FILE__) ?>">
+                        <p>
+                            <a href="<?php echo self::$epbase ?>/dashboard/pro-easy-video-analytics.aspx?ref=wizdirections" target="_blank"><b>Even more options are available to PRO users, no matter which editor you choose!</b></a>
+                            Simply click the "Customize" button in the wizard to further personalize each of your embeds without having to manually add special codes yourself. 
+                            The customize button will allow you to easily override most of the above default options for that embed.
+                        </p>
                     </section>
+
                     <section class="pattern" id="jumpgallery">
                         <h2>Gallery Settings and Directions</h2>
                         <img class="ssgallery" src="<?php echo plugins_url('images/ssgallery.png', __FILE__) ?>">
@@ -3663,7 +3721,7 @@ class YouTubePrefs
                         </p>
 
                         <p>
-                            Below are the settings for galleries:
+                            Below are the global settings for galleries. If you want each of your galleries to have custom settings, <a href="<?php echo self::$epbase ?>/dashboard/pro-easy-video-analytics.aspx?ref=galleryglobal" target="_blank">go PRO</a> for more options:
                         </p>
                         <div class="ytindent chx">
 
@@ -3946,7 +4004,6 @@ class YouTubePrefs
                         _e("<li><strong>fs</strong> - Set this to 0 to hide the fullscreen button (or 1 to show it). <em>Example: http://www.youtube.com/watch?v=quwebVjAEJA<strong>&fs=0</strong></em> </li>");
                         _e("<li><strong>color</strong> - Set this to 'white' to make the player have a white progress bar (or 'red' for a red progress bar). Note: Using white will disable the modestbranding option. <em>Example: http://www.youtube.com/watch?v=quwebVjAEJA<strong>&color=white</strong></em> </li>");
                         _e("<li><strong>controls</strong> - Set this to 0 to completely hide the video controls (or 2 to show it). <em>Example: http://www.youtube.com/watch?v=quwebVjAEJA<strong>&controls=0</strong></em> </li>");
-                        _e("<li><strong>autohide</strong> - Set this to 1 to slide away the control bar after the video starts playing. It will automatically slide back in again if you mouse over the video. (Set to  2 to always show it). <em>Example: http://www.youtube.com/watch?v=quwebVjAEJA<strong>&autohide=1</strong></em> </li>");
                         _e("<li><strong>playsinline</strong> - Set this to 1 to allow videos play inline with the page on iOS browsers. (Set to 0 to have iOS launch videos in fullscreen instead). <em>Example: http://www.youtube.com/watch?v=quwebVjAEJA<strong>&playsinline=1</strong></em> </li>");
                         _e("<li><strong>origin</strong> - Set this to 1 to add the 'origin' parameter for extra JavaScript security. <em>Example: http://www.youtube.com/watch?v=quwebVjAEJA<strong>&origin=1</strong></em> </li>");
                         _e('</ul>');
@@ -4202,7 +4259,7 @@ class YouTubePrefs
                 var mydomain = escape("http://" + window.location.host.toString());
                 jQuery(document).ready(function ($)
                 {
-                    $(document).on('click', '.wrap-ytprefs .nav-tab-wrapper a', function ()
+                    $(document).on('click', '.wrap-ytprefs .nav-tab-wrapper a, .epyt-jumptab', function ()
                     {
                         $a = $(this);
                         $('.wrap-ytprefs .nav-tab-wrapper a').removeClass('nav-tab-active');
@@ -4215,6 +4272,15 @@ class YouTubePrefs
                         }
 
                     });
+
+                    if (window.location.hash && window.location.hash == '#jumpmonetize')
+                    {
+                        setTimeout(function ()
+                        {
+                            window.scrollTo(0, 0);
+                        }, 1);
+                        $('.wrap-ytprefs .nav-tab-wrapper a[href="' + window.location.hash + '"]').click();
+                    }
 
                     $('#ytform').on('submit', function ()
                     {
@@ -4861,6 +4927,7 @@ class YouTubePrefs
                     'security' => wp_create_nonce('embedplus-nonce'),
                     'gallery_scrolloffset' => intval(self::$alloptions[self::$opt_gallery_scrolloffset]),
                     'eppathtoscripts' => plugins_url('scripts/', __FILE__),
+                    'eppath' => plugins_url('/', __FILE__),
                     'epresponsiveselector' => self::get_responsiveselector(),
                     'epdovol' => true,
                     'version' => self::$alloptions[self::$opt_version],
@@ -4954,6 +5021,7 @@ class YouTubePrefs
             'vi_logged_in' => self::vi_logged_in(),
             'epbase' => self::$epbase,
             'admin_url' => admin_url(),
+            'vi_js_settings' => self::$alloptions[self::$opt_vi_js_settings],
             'admin_url_ytprefs' => admin_url('admin.php?page=youtube-my-preferences')
                 //'epblogwidth' => self::get_blogwidth(),
                 //'epprokey' => self::$alloptions[self::$opt_pro],
@@ -5196,7 +5264,7 @@ class YouTubePrefs
 
             if (!empty($jsonResult->error))
             {
-                $messages[] = $jsonResult->error->message . ": " . $jsonResult->error->description;
+                $messages[] = $jsonResult->error->message . ": " . (is_string($jsonResult->error->description) ? $jsonResult->error->description : json_encode($jsonResult->error->description));
             }
 
             if (isset($jsonResult->status) && strcasecmp($jsonResult->status, 'ok') == 0 && isset($jsonResult->data) && strlen($jsonResult->data) > 0)
@@ -5245,15 +5313,14 @@ class YouTubePrefs
         $result = array();
         $default = array(
             'email' => '',
-            'password' => '',
-            'adstxt' => ''
+            'password' => ''
         );
         $input = shortcode_atts($default, stripslashes_deep($_POST));
         $valid = self::vi_login_valid($input);
         if ($valid === true)
         {
             self::vi_cache_endpoints();
-            $loginAPI = self::$alloptions[self::$opt_vi_endpoints]->loginAPI;
+            $loginAPI = self::$alloptions[self::$opt_vi_endpoints]->loginAPI . '?affiliateId=WP_embedplus';
             $inputAuth = array(
                 'email' => $input['email'],
                 'password' => $input['password']
@@ -5268,38 +5335,11 @@ class YouTubePrefs
                 $result['type'] = 'success';
 
                 $new_options = array(
-                    self::$opt_vi_token => $apiResult->data
+                    self::$opt_vi_token => $apiResult->data,
+                    self::$opt_vi_last_login => date('Y-m-d H:i:s')
                 );
 
                 self::update_option_set($new_options);
-
-                $adstxt_status = self::vi_adstxt_status_soft($input['adstxt']);
-
-
-                if ($adstxt_status['code'] < 1)
-                {
-                    $result['type'] = 'error';
-                    $new_options = array(
-                        self::$opt_vi_token => ''
-                    );
-                    self::update_option_set($new_options);
-                }
-                else
-                {
-                    $result['type'] = 'success';
-                }
-
-                $result['code'] = $adstxt_status['code'];
-                $result['message'] = $adstxt_status['message'];
-                if ($result['type'] === 'error')
-                {
-                    $result['message'] .= '<p><strong>Having trouble with setting up ads.txt? Please contact us at ext@embedplus.com for help.</strong></p>';
-                }
-
-                if (isset($adstxt_status['before_adstxt']) && isset($adstxt_status['after_adstxt']))
-                {
-                    $result['message'] .= '<div class="vi-adstxt-diff"><p><strong>Note:</strong> The below shows your new adst.txt file. <strong>Please doublecheck</strong> that any non-vi lines you might have had before are still preserved now (e.g. if you also had Google Adsense lines, etc.).</p><div class="vi-adstxt-before"><p><strong>Before:</strong></p><code>' . ($adstxt_status['before_adstxt'] ? $adstxt_status['before_adstxt'] : '(empty)') . '</code></div><div class="vi-adstxt-after"><p><strong>Now:</strong></p><code>' . ($adstxt_status['after_adstxt'] ? $adstxt_status['after_adstxt'] : '') . '</code></div></div>';
-                }
             }
             else
             {
@@ -5619,6 +5659,28 @@ class YouTubePrefs
         }
     }
 
+    public static function vi_adstxt_status_soft_ajax()
+    {
+        $result = array();
+        if (self::is_ajax() && self::ajax_referer() && current_user_can('manage_options'))
+        {
+            $default = array(
+                'current_adstxt' => ''
+            );
+            $input = shortcode_atts($default, stripslashes_deep($_POST));
+            $result = self::vi_adstxt_status_soft($input['current_adstxt']);
+        }
+        else
+        {
+            $result['type'] = 'error';
+            $result['message'] = 'Sorry, there was a problem verifying your ads.txt file. Please try again.';
+        }
+
+        $result['message'] = wp_kses_post($result['message']);
+        echo json_encode($result);
+        die();
+    }
+
     private static function vi_adstxt_status_soft($current_adstxt)
     {
         $adstxt_url = self::base_url() . '/ads.txt';
@@ -5629,7 +5691,7 @@ class YouTubePrefs
         {
             return array(
                 'code' => -1,
-                'message' => 'Sorry, your publisher ads.txt info could not be retrieved. Please wait a few minutes and try again. Your ads.txt verification file will enable you to make money through vi. <a href="https://www.vi.ai/publisherfaq/?aid=WP_embedplus&utm_source=Wordpress&utm_medium=WP_embedplus" target="_blank">FAQ &raquo;</a>'
+                'message' => 'Sorry, your vi ads.txt info could not be retrieved. Please wait a few minutes and try again. Your ads.txt verification file will enable you to make money through vi. <a href="https://www.vi.ai/publisherfaq/?aid=WP_embedplus&utm_source=Wordpress&utm_medium=WP_embedplus" target="_blank">FAQ &raquo;</a>'
             );
         }
         else
@@ -5648,9 +5710,8 @@ class YouTubePrefs
                 {
                     return array(
                         'code' => 0,
-                        'message' => '<h2>Almost There!</h2>Before you login, it&apos;s time to update your ads.txt file to reflect the latest data from vi. '
-                        . 'In your current <a href="' . self::base_url() . '/ads.txt" target="_blank">ads.txt</a> file, replace the vi lines (ending in # 41b5eef6) with the new lines you see below. '
-                        . 'Then, try logging in again. Your ads.txt verification file will enable you to make money through vi.'
+                        'message' => '<h3>Almost There!</h3> Looks like video intelligence has just updated its ad delivery partners. To get the most revenue out of your ads, open up your '
+                        . ' <a href="' . self::base_url() . '/ads.txt" target="_blank">ads.txt</a> file and replace the vi lines (ending in # 41b5eef6) with the new lines you see below. Then, refresh this page.'
                         . '<code>' . $user_adstxt . '</code>'
                     );
                 }
@@ -5658,9 +5719,8 @@ class YouTubePrefs
                 {
                     return array(
                         'code' => 0,
-                        'message' => '<h2>Almost There!</h2>In order to login and complete the setup, you need to update your ads.txt file. '
-                        . 'In your current <a href="' . self::base_url() . '/ads.txt" target="_blank">ads.txt</a> file, just add in the additional lines you see below. '
-                        . 'Then, try logging in again. Your ads.txt verification file will enable you to make money through vi.'
+                        'message' => '<h3>Almost There!</h3>'
+                        . 'In your current <a href="' . self::base_url() . '/ads.txt" target="_blank">ads.txt</a> file, just add in the additional lines you see below. Then, refresh this page.'
                         . '<code>' . $user_adstxt . '</code>'
                     );
                 }
@@ -5669,7 +5729,7 @@ class YouTubePrefs
             {
                 return array(
                     'code' => 2,
-                    'message' => 'You successfully validated your account.'
+                    'message' => '<p class="adstxt-verify-message-valid">You successfully validated your ads.txt file.</p>'
                 );
             }
         }
@@ -5678,9 +5738,9 @@ class YouTubePrefs
             // create manually
             return array(
                 'code' => 0,
-                'message' => '<h2>Almost There!</h2>In order to login and complete the monetization setup, you need an "ads.txt" file. '
-                . 'Please first <a class="button-secondary" href="' . admin_url('admin.php') . '?ytvi_adstxt_download=1&key=' . urlencode(self::$alloptions[self::$opt_vi_token]) . '">download this ads.txt</a> file and upload it to your site root. '
-                . 'Then, try logging in again. Your ads.txt verification file will enable you to make money through vi.'
+                'message' => '<h3>Almost There!</h3>'
+                . 'You can <a class="button button-small" href="' . admin_url('admin.php') . '?ytvi_adstxt_download=1&key=' . urlencode(self::$alloptions[self::$opt_vi_token]) . '">download this ads.txt</a> file and upload it to your site root (or copy the same text below). Then, refresh this page to verify.'
+                . '<code>' . $user_adstxt . '</code>'
             );
         }
     }
@@ -5773,6 +5833,7 @@ class YouTubePrefs
             <a class="nav-tab" href="#jumpdescription">Site Description</a>
             <a class="nav-tab" href="#jumpappearance">Appearance</a>
             <a class="nav-tab" href="#jumpplacement">Placement</a>
+            <a class="nav-tab nav-tab-adstxt" href="#jumpadstxt">Ads.txt Verification &nbsp;</a>
             <a class="nav-tab" href="#jumpperformance">Revenue Reporting</a>
             <a class="nav-tab" href="#jumprevenue">Profile Settings</a>
             <a class="nav-tab" href="#jumpviprivacy">Privacy</a>
@@ -5790,10 +5851,6 @@ class YouTubePrefs
         {
             $messages[] = $apiResult->get_error_message();
         }
-        else if (wp_remote_retrieve_response_code($apiResult) >= 400)
-        {
-            $messages[] = '(Error code ' . wp_remote_retrieve_response_code($apiResult) . '). Please try again later.  If the problem persists, please contact support at ext@embedplus.com.';
-        }
         else
         {
             $jsonResult = json_decode($apiResult['body']);
@@ -5801,7 +5858,8 @@ class YouTubePrefs
             if (!empty($jsonResult->error))
             {
                 //$messages[] = implode(': ', array('vi API - ' . self::vi_debug_json($apiResult)));
-                $messages[] = implode(': ', array($jsonResult->error->message, is_string($jsonResult->error->description) ? $jsonResult->error->description : json_encode($jsonResult->error->description)));
+                $messages[] = 'If the issue is not resolved, please contact support at ext@embedplus.com and we will get you going. (Error code ' . wp_remote_retrieve_response_code($apiResult) . ', v' . self::$version .
+                        ' - <em>' . implode(': ', array($jsonResult->error->message, is_string($jsonResult->error->description) ? $jsonResult->error->description : json_encode($jsonResult->error->description))) . '</em>)';
             }
 
             if (isset($jsonResult->status) && strcasecmp($jsonResult->status, 'ok') == 0 && isset($jsonResult->data) && strlen($jsonResult->data) > 0)
@@ -5878,7 +5936,7 @@ class YouTubePrefs
             $messages[] = 'Please choose a valid placement position.';
         }
 
-        $item[self::$opt_vi_js_settings]['keywords'] = substr(sanitize_text_field($item[self::$opt_vi_js_settings]['keywords']), 0, 200);
+        $item[self::$opt_vi_js_settings]['keywords'] = substr(sanitize_text_field(str_replace(array('\'', '"'), '', $item[self::$opt_vi_js_settings]['keywords'])), 0, 200);
 
         $item[self::$opt_vi_js_settings]['iabCategory'] = sanitize_text_field($item[self::$opt_vi_js_settings]['iabCategory']);
         if (empty($item[self::$opt_vi_js_settings]['iabCategory']))
@@ -5923,7 +5981,7 @@ class YouTubePrefs
             }
             else
             {
-                $messages[] = 'Sorry, your ad customizations could not be saved to your account.';
+                $messages[] = 'A quick re-authentication is required to save your most recent customizations. Simply log out of this Ads Settings page with the "Logout" button right above and then log back in with your vi login and password. ';
                 $messages = array_merge($messages, $js);
             }
         }
@@ -5986,7 +6044,7 @@ class YouTubePrefs
             {
                 self::update_option_set($item);
 
-                $message = 'Settings were successfully saved. Now you can turn on vi ads above. Note: changes may take a few minutes to appear on your website.';
+                $message = 'Settings were successfully saved. Now you can turn on vi ads above. Note: changes may take a few minutes to appear on your website. If you are using a separate caching plugin, <strong>you need to reset your cache</strong> to see any changes.';
             }
             else
             {
@@ -6059,8 +6117,16 @@ class YouTubePrefs
                             Click the colored button at the top right of this page to make the ad player visible.
                         </p>
                     </div>
-                    <div class="vi-how-works" data-jump="#jumpperformance">
+                    <div class="vi-how-works" data-jump="#jumpadstxt">
                         <div class="vi-num">5</div>
+                        <img src="<?php echo plugins_url(self::$folder_name . '/images/icon-hw-adstxt.png') ?>"/>
+                        <h3>Ads.txt Verification</h3>
+                        <p>
+                            Verify your ads.txt file to start earning revenue.
+                        </p>
+                    </div>
+                    <div class="vi-how-works" data-jump="#jumpperformance">
+                        <div class="vi-num">6</div>
                         <img src="<?php echo plugins_url(self::$folder_name . '/images/icon-hw-performance.png') ?>"/>
                         <h3>Revenue Reporting</h3>
                         <p>
@@ -6068,7 +6134,7 @@ class YouTubePrefs
                         </p>
                     </div>
                     <div class="vi-how-works" data-jump="#jumprevenue">
-                        <div class="vi-num">6</div>
+                        <div class="vi-num">7</div>
                         <img src="<?php echo plugins_url(self::$folder_name . '/images/icon-hw-revenue.png') ?>"/>
                         <h3>Profile Settings</h3>
                         <p>
@@ -6080,15 +6146,15 @@ class YouTubePrefs
                 <section class="pattern" id="jumpdescription">
                     <h2><span class="vi-num">1</span> Site Description</h2>
                     <p>
-                        Your video ad will be optimized to relate to your site's content.
+                        Your video ad will be optimized to relate to your site's content. Note that the quality of the matches improves over time.
                     </p>
                     <table cellspacing="2" cellpadding="5" style="width: 100%;" class="form-table">
                         <tbody>
                             <tr class="form-field">
                                 <th valign="top" scope="row">
                                     <label for="<?php echo self::$opt_vi_js_settings ?>[keywords]">Keywords</label>
-                                    <small>Enter a few keywords that describe topics your visitors are likely to be interested in. Separate by commas. 
-                                        Try to avoid terms that have multiple meanings; e.g., just the word "record" can refer to music records and even sports records.</small>
+                                    <small>Enter a few keywords that describe topics your visitors are likely to be interested in. <strong>Separate by commas.</strong>
+                                        Tip: Try to avoid terms that have multiple meanings; e.g., just the word "record" can refer to music records and even sports records.</small>
                                 </th>
                                 <td>
                                     <input id="<?php echo self::$opt_vi_js_settings ?>[keywords]" name="<?php echo self::$opt_vi_js_settings ?>[keywords]" value="<?php echo esc_attr($item[self::$opt_vi_js_settings]['keywords']) ?>"
@@ -6098,7 +6164,7 @@ class YouTubePrefs
                             <tr class="form-field">
                                 <th valign="top" scope="row">
                                     <label for="<?php echo self::$opt_vi_js_settings ?>[iabCategory]">IAB Category</label>
-                                    <small>Select the category that most fits your website.</small>
+                                    <small>Select the category and subcategory that most fit your website.</small>
                                 </th>
                                 <td>
                                     <select class="iab-cat-parent">
@@ -6111,7 +6177,7 @@ class YouTubePrefs
                                         <!--                                        <option value="IAB6">Family & Parenting</option>-->
                                         <option value="IAB7">Health & Fitness</option>
                                         <option value="IAB8">Food & Drink</option>
-                                        <!--                                        <option value="IAB9">Hobbies & Interests</option>-->
+                                        <option value="IAB9">Hobbies & Interests</option>
                                         <option value="IAB10">Home & Garden</option>
                                         <option value="IAB11">Law, Gov't & Politics</option>
                                         <option value="IAB12">News</option>
@@ -6122,7 +6188,7 @@ class YouTubePrefs
                                         <option value="IAB17">Sports</option>
                                         <option value="IAB18">Style & Fashion</option>
                                         <option value="IAB19">Technology & Computing</option>
-                                        <!--                                        <option value="IAB20">Travel</option>-->
+                                        <option value="IAB20">Travel</option>
                                         <!--                                        <option value="IAB21">Real Estate</option>-->
                                         <option value="IAB22">Shopping</option>
                                         <!--                                        <option value="IAB23">Religion & Spirituality</option>-->
@@ -6131,7 +6197,7 @@ class YouTubePrefs
                                     </select>
                                     <div class="iab-cat-child-box hidden">
                                         Subcategory:
-                                        <select class="iab-cat-child" name="<?php echo self::$opt_vi_js_settings ?>[iabCategory]" id="<?php echo self::$opt_vi_js_settings ?>[iabCategory]" required>
+                                        <select class="iab-cat-child" name="<?php echo self::$opt_vi_js_settings ?>[iabCategory]" id="<?php echo self::$opt_vi_js_settings ?>[iabCategory]" required disabled>
                                             <option <?php selected($item[self::$opt_vi_js_settings]['iabCategory'], "") ?> value="">None Selected</option>
                                             <option <?php selected($item[self::$opt_vi_js_settings]['iabCategory'], "IAB1") ?> value="IAB1">Arts & Entertainment (All)</option>
                                             <option <?php selected($item[self::$opt_vi_js_settings]['iabCategory'], "IAB1-1") ?> value="IAB1-1">Books & Literature</option>
@@ -6692,10 +6758,13 @@ margin: 0 auto;
                 <section class="pattern" id="jumpplacement">
                     <h2><span class="vi-num">3</span> Placement</h2>
                     <p>
+                        You can choose to place your ad <strong>automatically</strong>, or <strong>manually</strong> using a shortcode, or in a specific spot in your <strong>theme</strong> code. Each method is explained below.
+                    </p>
+                    <p>
                         After you finish choosing your placement preferences below, 1) Click on "Save Changes", and 2) <strong class="vi-red">turn on</strong> the ads using the button at the top of this screen.
                     </p>
                     <p>
-                        Note: The ad player will auto-fit to its container when loaded. Please place the ad an area that is at least 336px wide for desktop, or 301px wide for mobile.
+                        <strong>Note: The ad player will auto-fit to its container when loaded.</strong>
                     </p>
 
                     <h3>Automatic: Top or Bottom</h3>
@@ -6726,17 +6795,47 @@ margin: 0 auto;
                     <p>
                         Note that only one ad can appear on a page, but if you'd like more control of exactly <em>where</em> it's placed, see the "Manual" or "Theme Code" directions in the next sections.
                     </p>
-                    <h3>Manual</h3>
-                    <p>Instead of the automatic placement options, you can manually insert your ad in text widgets, and in specific posts or pages too. Simply use the wizard button as shown below, and the ad will appear exactly where you inserted its shortcode. <strong>Note that only one vi ad can show up per page.  So, above, if you checked any automatic placement options, please uncheck them to prevent a conflict between the automatic and manually placed ads. Your manually entered codes will then have a chance to start appearing.</strong></p>
-                    <img class="ss-vi-wizbutton" src="<?php echo plugins_url(self::$folder_name . '/images/ss-vi-wizbutton.png'); ?>"/>                    
+                    <h3>Manual: Shortcode or Gutenberg Block</h3>
+                    <p>
+                        If you didn't select any of the automatic options above, you can manually insert your ad in text widgets, and in specific posts or pages. 
+                        See the below screenshot to find the button you can use to manually embed the ad code.
+                        (or, use this shortcode directly: <code>[embed-vi-ad]</code>).
+                        <strong>We're quite happy to help you if you aren't sure what to do</strong>, especially due the newness of the new Gutenberg editor.  <strong>Just email us at ext@embedplus.com</strong>
+                    </p>
+                    <p>
+                        By the way, if you did make an automatic selection above, do not make any manual insertions. Skip the remaining options on this page, since only one ad code/script is allowed per page and the above has got you covered. 
+                    </p>
+                    <img class="ss-vi-wizbutton" src="<?php echo plugins_url(self::$folder_name . '/images/ss-vi-wizbutton.png') . '?ver=' . self::$version; ?>"/>                    
 
                     <h3>Theme Code (advanced)</h3>
                     <p>You can also position the ad directly in your theme code. Copy the PHP code below and paste it where you would like it to appear in your theme.</p>
                     <p><code>echo do_shortcode("[embed-vi-ad]");</code></p>
                 </section>
 
+
+                <section class="pattern" id="jumpadstxt">
+                    <h2><span class="vi-num">5</span> Ads.txt Verification</h2>
+                    <p>
+                        In order for your ads to start generating revenue, verify your ads.txt file:
+                    </p>
+                    <div class="adstxt-verify-message">
+
+                    </div>
+
+                    <p>
+                        Are you also running Google Adsense ads on your site?  If so, also add the following line which is <a href="https://support.google.com/adsense/answer/7532444?hl=en" target="_blank">recommended by Google</a> for ads.txt files (replace the <code>0000000000000000</code> with your actual publisher ID as provided by Google).
+                    </p>
+                    <p>
+                        <code class="adstxt-block">google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0</code>
+                    </p>                    
+                    <p>
+                        Trouble with your ads.txt verification? Contact support at <strong><a href="mailto:ext@embedplus.com">ext@embedplus.com</a></strong>
+                    </p>
+                </section>
+
+
                 <section class="pattern" id="jumpperformance">
-                    <h2><span class="vi-num">5</span> Revenue Reporting</h2>
+                    <h2><span class="vi-num">6</span> Revenue Reporting</h2>
                     <div class="vi-report">
                         <div class="vi-total-earnings">
                             <h3>Total Earnings</h3>
@@ -6779,6 +6878,21 @@ margin: 0 auto;
 
                 </section>
 
+                <section class="pattern" id="jumprevenue">
+                    <h2><span class="vi-num">7</span> Profile Settings</h2>
+                    <p>
+                        To enter where you would like to receive your payments,
+                        <a class="button-secondary align-middle" target="_blank" href="<?php echo esc_url(trailingslashit(self::$alloptions[self::$opt_vi_endpoints]->dashboardURL) . 'scar/' . self::$alloptions[self::$opt_vi_token]); ?>">click here</a> 
+                        to automatically login to your dashboard on vi.ai. Your deposit options, which include bank transfer or PayPal, are found in the "Settings" tab:
+                    </p>
+                    <p>
+                        <img class="ss-vi-img" src="<?php echo plugins_url(self::$folder_name . '/images/ss-vi-dashrevenue.png'); ?>"/>
+                    </p>
+                    <p>
+                        Trouble automatically logging in? <a target="_blank" href="<?php echo esc_url(self::$alloptions[self::$opt_vi_endpoints]->dashboardURL); ?>">Manually login here</a> using the email you signed up with.
+                    </p>
+                </section>
+
                 <section class="pattern" id="jumpviprivacy">
                     <h2>Privacy</h2>
                     <p>
@@ -6792,21 +6906,6 @@ margin: 0 auto;
                             <input type="checkbox" name="<?php echo self::$opt_vi_show_privacy_button ?>" value="1" <?php checked($item[self::$opt_vi_show_privacy_button] == 1) ?> />
                             <strong>Show Privacy Settings Button</strong> - Checking this will also display a floating button ("vi Privacy Settings") on pages where vi ads are shown. Users can click on it to reevaluate consent without to having to manually manage cookies from their browser settings.
                         </label>
-                    </p>
-                </section>
-
-                <section class="pattern" id="jumprevenue">
-                    <h2><span class="vi-num">6</span> Profile Settings</h2>
-                    <p>
-                        To enter where you would like to receive your payments,
-                        <a class="button-secondary align-middle" target="_blank" href="<?php echo esc_url(trailingslashit(self::$alloptions[self::$opt_vi_endpoints]->dashboardURL) . 'scar/' . self::$alloptions[self::$opt_vi_token]); ?>">click here</a> 
-                        to automatically login to your dashboard on vi.ai. Your deposit options, which include bank transfer or PayPal, are found in the "Settings" tab:
-                    </p>
-                    <p>
-                        <img class="ss-vi-img" src="<?php echo plugins_url(self::$folder_name . '/images/ss-vi-dashrevenue.png'); ?>"/>
-                    </p>
-                    <p>
-                        Trouble automatically logging in? <a target="_blank" href="<?php echo esc_url(self::$alloptions[self::$opt_vi_endpoints]->dashboardURL); ?>">Manually login here</a> using the email you signed up with.
                     </p>
                 </section>
 
@@ -6846,9 +6945,21 @@ margin: 0 auto;
                             </p>
                         </li>
                         <li>
-                            <h3>Why does only one ad appear on the page at a time?</h3>
+                            <h3>Why are there no ads, even though I added the code (manually or automatically)?</h3>
                             <p>
-                                At this time, only one ad is allowed per page. If you insert more, then only the first one will be visible.
+                                It's likely that you've added more than one ad script/code to your pages.
+                                Perhaps you selected the automatic placement on a post/page but also inserted a separate piece of code/script manually.
+                                At this time, only one ad is allowed per page. If you insert more, then no ads might be visible.
+                            </p>
+                        </li>
+                        <li>
+                            <h3>Is this video intelligence (vi) monetization feature compatible with Google Adsense?</h3>
+                            <p>
+                                Yes.  Many publishers are in fact running both Adsense and vi at the same time.  Like vi, Google Adsense recommends that you have an  <a href="https://support.google.com/adsense/answer/7532444?hl=en" target="_blank">ads.txt in your root folder</a>.
+                                Therefore, you should also include the following line in your ads.txt -- either before or after the lines you inserted for vi (replace the <code>0000000000000000</code> with the actual publisher ID provided by Google):
+                            </p>
+                            <p>
+                                <code>google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0</code>
                             </p>
                         </li>
                         <li>
@@ -6883,10 +6994,7 @@ margin: 0 auto;
                         <li>
                             <h3>When will I start seeing ads within the vi story?</h3>
                             <p>
-                                It can vary depending on which countries the bulk of your traffic is coming from.  Here’s a table from vi.ai. that offers some insight:
-                            </p>
-                            <p>
-                                <img src="<?php echo plugins_url(self::$folder_name . '/images/vi-demand-estimates.png') ?>"/>
+                                It can vary depending on which countries the bulk of your traffic is coming from. For most countries it takes about 1 to 2 days.  If you have questions, email us at ext@embedplus.com
                             </p>
                         </li>
                         <li>
@@ -6925,7 +7033,7 @@ margin: 0 auto;
     public static function vi_monetize_title()
     {
         ?>
-        Join over 30,000 publishers making money embedding high quality video ads
+        Join over 40,000 publishers making money embedding high quality video ads
         <?php
     }
 
@@ -6986,31 +7094,11 @@ margin: 0 auto;
 
     public static function vi_script_tag()
     {
-        $gdpr_mode = (bool) self::$alloptions[self::$opt_vi_show_gdpr_authorization];
-
-        $gdpr_check_before = $gdpr_mode ? "(function ($)
-{
-    $(window).on('load.ytvi_cmp', function ()
-    {
-        var ytvi_consent = __vicmp('getUserConsentStatus', null, function (data, success)
-        {
-            if (!data.gdprApplies || data.consent)
-            {
-                $('.ytvi-story-container').css('display', 'block');
-                " : '';
-        $gdpr_check_after = $gdpr_mode ? "}
-        });
-    });
-})(jQuery);" : '';
-
         if (!self::$vi_script_tag_done && self::$alloptions[self::$opt_vi_active] && self::vi_script_setup_done())
         {
             self::$vi_script_tag_done = true;
-            //return '<div class="ytvi-story-container" ' . ($gdpr_mode ? ' style="display: none;" ' : '') . '><script class="ytvi-story-script" type="text/javascript">' .
-            return '<div class="ytvi-story-container"><script class="ytvi-story-script" type="text/javascript">' .
-                    //$gdpr_check_before .
+            return '<div class="ytvi-story-container" id="ytvi_story_container"><script class="ytvi-story-script" type="text/javascript">' .
                     self::$alloptions[self::$opt_vi_js_script] .
-                    //$gdpr_check_after .
                     '</script></div>';
         }
         return '';
@@ -7271,11 +7359,140 @@ margin: 0 auto;
         
     }
 
+    public static function vi_last_login_valid()
+    {
+        $last_login = strtotime(self::$alloptions[self::$opt_vi_last_login]);
+        $last_login_plus = strtotime(self::$alloptions[self::$opt_vi_last_login] . ' + 29 days');
+        //$last_login_plus = strtotime(self::$alloptions[self::$opt_vi_last_login] . ' + 2 minutes');
+        if ($last_login_plus < time())
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public static function vi_token_expire()
+    {
+        try
+        {
+            self::vi_cron_stop();
+            if (self::vi_logged_in() && !self::vi_last_login_valid())
+            {
+                self::update_option_set(array(
+                    self::$opt_vi_token => ''
+                ));
+            }
+        }
+        catch (Exception $ex)
+        {
+            
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public static function gb_block_assets()
+    {
+        // frontend+backend styles.
+        wp_enqueue_style('epytgb-style-css', plugins_url('dist/blocks.style.build.css', __FILE__), array('wp-blocks'), self::$version);
+    }
+
+    public static function gb_editor_assets()
+    {
+        // backend styels
+        self::ytprefsscript();
+        self::fitvids();
+
+        if (!self::is_restrict_wizard() && current_user_can('edit_posts'))
+        {
+            // Scripts.
+            wp_enqueue_script(
+                    'epytgb-block-js', // Handle.
+                    plugins_url('/dist/blocks.build.js', __FILE__), // Block.build.js: We register the block here. Built with Webpack.
+                    array('wp-blocks', 'wp-i18n', 'wp-element'), // Dependencies, defined above.
+                    self::$version, true // Enqueue the script in the footer.
+            );
+
+            // Styles.
+            wp_enqueue_style(
+                    'epytgb-block-editor-css', // Handle.
+                    plugins_url('dist/blocks.editor.build.css', __FILE__), // Block editor CSS.
+                    array('wp-edit-blocks'), // Dependency to include the CSS after it.
+                    self::$version
+            );
+
+            wp_enqueue_style('__ytprefs_admin__vi_css', plugins_url('styles/ytvi-admin' . self::$min . '.css', __FILE__), array(), self::$version);
+
+            // Tiny MCE
+            wp_enqueue_style('__ytprefs_admin__tinymce_css', plugins_url('styles/epyt_mce_wizard_button' . self::$min . '.css', __FILE__), array(), self::$version);
+        }
+    }
+
+    public static function gb_classic_block_setup()
+    {
+        if (!self::is_restrict_wizard() && current_user_can('edit_posts'))
+        {
+            add_thickbox();
+            add_filter("mce_external_plugins", array(get_class(), "gb_add_tinymce_plugin"));
+            add_filter('mce_buttons_2', array(get_class(), 'gb_register_tinymce_button'));
+        }
+    }
+
+    public static function gb_add_tinymce_plugin($plugin_array)
+    {
+        $plugin_array['epyt_mce_wizard_button'] = plugins_url('scripts/epyt_mce_wizard_button' . self::$min . '.js', __FILE__) . '?ver=' . self::$version;
+        return $plugin_array;
+    }
+
+    public static function gb_register_tinymce_button($buttons)
+    {
+        array_push($buttons, "epyt_mce_wizard_button");
+        return $buttons;
+    }
+
+    public static function gb_svg_defs()
+    {
+        ?>
+        <svg><defs><style>.epytcls-1{fill:red;}.epytcls-2{fill-rule:evenodd;fill:url(#radial-gradient);}.epytcls-3{fill:#31aaff;}.epytcls-4{fill:#fff;}</style><radialGradient id="radial-gradient" cx="193" cy="85.85" r="77.53" gradientUnits="userSpaceOnUse"><stop offset="0.17" stop-color="#fff"/><stop offset="0.68" stop-color="#31aaff"/></radialGradient></defs></svg>
+        <?php
+    }
+
+    public static function gb_register_block_types()
+    {
+        if (function_exists('register_block_type'))
+        {
+            register_block_type(
+                    'epyt/youtube', array(
+                'attributes' => array(
+                    'shortcode' => array(
+                        'type' => 'string'
+                    )
+                ),
+                'render_callback' => array(get_class(), 'gb_render_callback_youtube'),
+                    )
+            );
+        }
+    }
+
+    public static function gb_render_callback_youtube($attributes, $content)
+    {
+        if ($attributes && $attributes['shortcode'] && strpos($attributes['shortcode'], '[') === 0)
+        {
+            return do_shortcode($attributes['shortcode']);
+        }
+        return isset($attributes['shortcode']) ? $attributes['shortcode'] : '';
+    }
+
 }
 
 // constants
 define('EPYT_BASE_URL', rtrim(plugins_url('', __FILE__), "\\/") . '/');
 define('EPYTVI_INCLUDES_PATH', rtrim(dirname(__FILE__), "\\/") . '/includes/vi/');
+define('EPYTGB_INCLUDES_PATH', rtrim(dirname(__FILE__), "\\/") . '/includes/gutenberg/');
 if (!defined('EPYTVI_ENDPOINTS_URL'))
     define('EPYTVI_ENDPOINTS_URL', 'https://dashboard-api.vidint.net/v1/api/widget/settings');
 

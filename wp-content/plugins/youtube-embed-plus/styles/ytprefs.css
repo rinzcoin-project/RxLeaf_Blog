@@ -30,6 +30,10 @@ iframe.__youtube_prefs__
     display: block;
 }
 
+.epyt-gallery-list .epyt-gallery-thumb {
+    box-sizing: border-box;
+}
+
 .epyt-gallery-list p {
     display: none;
 }

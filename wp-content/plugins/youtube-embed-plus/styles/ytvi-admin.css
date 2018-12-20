@@ -152,12 +152,12 @@ sup.orange {text-transform: lowercase; font-weight: bold; color: #f85d00;}
     font-style: italic;
 }
 
-.vi-adstxt-diff code {
+.vi-adstxt-diff code, .adstxt-verify-message code, code.adstxt-block {
     white-space: pre;
     display: block;
     overflow: auto;
+    margin: 25px 0;
 }
-
 
 section.pattern h2 {
     background-color: rgba(255, 255, 255, 0);
@@ -287,6 +287,11 @@ p.vi-ad-source-row  {
     width: auto;
 }
 
+.login-expire {
+    background-color: #d8ebf3;
+    border: 1px solid #d0d0d0;
+    padding: 25px;
+}
 
 /* admin *****************************************************************************/
 .wrap-vi {max-width: 1064px; margin-bottom: 100px;}
@@ -360,7 +365,7 @@ a.button-primary.ytvi-btn-inactive:hover {
 
 .iab-cat-parent {margin-right: 15px; display: inline-block;}
 .iab-cat-child-box {display: inline-block;}
-.iab-cat-child-box.hidden {display: none;}
+.iab-cat-child-box.hidden {opacity: .3;}
 .iab-cat-child option.hidden {display: none;}
 .wp-picker-container.wp-picker-active .wp-color-result-text {font-weight: bold;}
 ul.list-ul {margin: 15px 30px;}
@@ -497,7 +502,7 @@ h2 .vi-num {
     opacity: 0.5;    
 }
 
-.vi-story-demo--featured img  {
+.vi-story-demo--box .vi-story-demo--featured img  {
     width: 20px;
     height: 20px;
     vertical-align: middle;
@@ -518,8 +523,25 @@ h2 .vi-num {
 
 }
 
+.nav-tab-valid, .nav-tab-valid:focus, .adstxt-verify-message-valid {
+    color: #00a000;
+    font-weight: bold;
+}
+.nav-tab-valid:after {
+    content: url('../images/adstxt-valid.png');
+}
+
+.nav-tab-invalid, .nav-tab-invalid:focus {
+    color: #cc0000;
+}
+.nav-tab-invalid:after {
+    content: url('../images/adstxt-invalid.png');
+}
 
 
+.nav-tab-loading:after {
+    content: url('../images/ajax-loader.gif');
+}
 
 /************* chart */
 

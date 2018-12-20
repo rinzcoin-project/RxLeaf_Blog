@@ -98,39 +98,96 @@
 
     window._EPYTA_.adstxtLookup = function ()
     {
+        window._EPYTA_.adstxtLoading(true);
+
         $.ajax({
-            url: location.protocol + "//" + location.hostname + "/ads.txt", //?c=" + Math.random(),
+            url: location.protocol + "//" + location.hostname + "/ads.txt?c=" + Date.now(),
             dataType: 'text',
             type: 'get',
-            async: true,
-            cache: false,
-            statusCode: {
-                200: function (response)
-                {
-                    $('.ytvi-login-adstxt').val($("<div/>").html(response).text());
-                },
-                301: function (response)
-                {
-                    $('.ytvi-login-adstxt').val($("<div/>").html(response).text());
-                },
-                302: function (response)
-                {
-                    $('.ytvi-login-adstxt').val($("<div/>").html(response).text());
-                },
-                304: function (response)
-                {
-                    $('.ytvi-login-adstxt').val($("<div/>").html(response).text());
-                },
-                307: function (response)
-                {
-                    $('.ytvi-login-adstxt').val($("<div/>").html(response).text());
-                }
-            },
-            error: function (jqXHR, status, errorThrown)
+            data: '',
+            async: true
+        }).always(function (data_jqXHR, textStatus, jqXHR_errorThrown)
+        {
+            if (textStatus === 'success')
             {
-                //alert(errorThrown);
+                var jqXHR = jqXHR_errorThrown;
+                var data = data_jqXHR;
+                switch (jqXHR.status)
+                {
+                    case 200:
+                    case 301:
+                    case 302:
+                    case 304:
+                    case 307:
+                        window._EPYTA_.adstxtVerify(data);
+                        break;
+                    default:
+                        window._EPYTA_.adstxtVerify('');
+                        break;
+                }
+            }
+            else
+            {
+                window._EPYTA_.adstxtVerify('');
             }
         });
+    };
+
+    window._EPYTA_.adstxtVerify = function (current_adstxt)
+    {
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            timeout: 120000,
+            url: window._EPYTA_.wpajaxurl,
+            data: {
+                security: window._EPYTA_.security,
+                action: 'my_embedplus_vi_adstxt_status_soft_ajax',
+                current_adstxt: current_adstxt
+            },
+            success: function (response)
+            {
+                if (response.code == 2)
+                {
+                    $('.nav-tab-adstxt').addClass('nav-tab-valid');
+                }
+                else if (response.code <= 0)
+                {
+                    $('.nav-tab-adstxt').addClass('nav-tab-invalid');
+                }
+                $('.adstxt-verify-message').html(response.message);
+            },
+            error: function (xhr, ajaxOptions, thrownError)
+            {
+                $('.nav-tab-adstxt').addClass('nav-tab-invalid');
+                $('.adstxt-verify-message').html('Could not validate ads.txt: ' + thrownError);
+            },
+            complete: function ()
+            {
+                window._EPYTA_.adstxtLoading(false);
+            }
+        });
+    };
+
+    window._EPYTA_.adstxtLoading = function (show)
+    {
+        if (show)
+        {
+            $('.nav-tab-adstxt').addClass('nav-tab-loading');
+        }
+        else
+        {
+            $('.nav-tab-adstxt').removeClass('nav-tab-loading');
+        }
+    };
+
+    window._EPYTA_.gbPreviewSetup = function ()
+    {
+        window._EPADashboard_.loadYTAPI();
+        window._EPADashboard_.apiInit();
+        window._EPADashboard_.log("YT API GB");
+        window._EPADashboard_.pageReady();
+        jQuery('body').fitVidsEP();
     };
 
     $.fn.ytprefsFormJSON = function ()
@@ -172,7 +229,7 @@
             var embedcode = "";
             try
             {
-                if (e.data.indexOf("youtubeembedplus") === 0)
+                if (e.data.indexOf("youtubeembedplus") === 0 && e.data.indexOf('clientId=') < 0)
                 {
                     embedcode = e.data.split("|")[1];
                     if (embedcode.indexOf("[") !== 0)
@@ -182,6 +239,17 @@
 
                     if (window.tinyMCE !== null && window.tinyMCE.activeEditor !== null && !window.tinyMCE.activeEditor.isHidden())
                     {
+                        if (window._EPYTA_.mceBookmark)
+                        {
+                            try
+                            {
+                                window.tinyMCE.activeEditor.selection.moveToBookmark(window._EPYTA_.mceBookmark);
+                            }
+                            catch (err)
+                            {
+                            }
+                        }
+
                         if (typeof window.tinyMCE.execInstanceCommand !== 'undefined')
                         {
                             window.tinyMCE.execInstanceCommand(
@@ -194,6 +262,11 @@
                         {
                             send_to_editor(embedcode);
                         }
+
+                        setTimeout(function ()
+                        {
+                            window._EPYTA_.mceBookmark = null;
+                        }, 500);
                     }
                     else
                     {
@@ -246,7 +319,7 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if ($('.ytvi-step.ytvi-step-1').length)
+        if ($('.wrap-vi-settings').length)
         {
             window._EPYTA_.adstxtLookup();
         }
@@ -449,7 +522,6 @@
 
             var loginEmail = $.trim($('.ytvi-login-email').val());
             var loginPassword = $.trim($('.ytvi-password').val());
-            var loginAdstxt = $('.ytvi-login-adstxt').val();
             var errorMessage = "";
 
             errorMessage += loginEmail.length ? "" : "Please enter your email address. ";
@@ -476,17 +548,13 @@
                                 security: window._EPYTA_.security,
                                 action: 'my_embedplus_vi_login_ajax',
                                 email: loginEmail,
-                                password: loginPassword,
-                                adstxt: loginAdstxt
+                                password: loginPassword
                             },
                             success: function (response)
                             {
                                 if (response.type === 'error')
                                 {
-                                    alertify.alert(response.message, function ()
-                                    {
-                                        window._EPYTA_.adstxtLookup();
-                                    });
+                                    alertify.alert(response.message);
                                     window._EPYTA_.ytvi_cancel();
                                 }
                                 else
@@ -502,16 +570,12 @@
                             },
                             error: function (xhr, ajaxOptions, thrownError)
                             {
-                                alertify.alert('Sorry, there was a network error. Please try again. If the issue persists, please contact ext@embedplus.com', function ()
-                                {
-                                    window._EPYTA_.adstxtLookup();
-                                });
+                                alertify.alert('Sorry, there was a network error. Please try again. If the issue persists, please contact ext@embedplus.com');
                                 window._EPYTA_.ytvi_cancel();
                             },
                             complete: function ()
                             {
                                 $('.ytvi-step-1--submit-login').prop('disabled', false);
-                                window._EPYTA_.adstxtLookup();
                             }
                         });
                     });
@@ -521,7 +585,7 @@
 
         $('a.vi-logged-in-goto').each(function ()
         {
-            if ($(this).attr('href').indexOf(window.location.pathname + window.location.search) > 0)
+            if ($(this).attr('href').indexOf(window.location.pathname + window.location.search) > 0 || window.location.search.indexOf('youtube-my-preferences') > 0)
             {
                 $(this).removeAttr('target');
             }
@@ -551,6 +615,7 @@
             {
                 var iabPrefix = iab.split('-')[0];
                 $('.iab-cat-child-box').removeClass('hidden');
+                $('.iab-cat-child-box select').prop('disabled', false);
 
                 $('.iab-cat-parent option[value="' + iabPrefix + '"]').prop('selected', true);
                 $('.iab-cat-child option').addClass('hidden');
@@ -559,15 +624,17 @@
 
             $('.iab-cat-parent').on('change', function ()
             {
-                $('.iab-cat-child').val('');
                 var iabPrefix = $(this).val();
+                $('.iab-cat-child').val(iabPrefix);
                 if (iabPrefix == "")
                 {
                     $('.iab-cat-child-box').addClass('hidden');
+                    $('.iab-cat-child-box select').prop('disabled', true);
                 }
                 else
                 {
                     $('.iab-cat-child-box').removeClass('hidden');
+                    $('.iab-cat-child-box select').prop('disabled', false);
                     $('.iab-cat-child option').addClass('hidden');
                     $('.iab-cat-child option[value^="' + iabPrefix + '-"], .iab-cat-child option[value="' + iabPrefix + '"]').removeClass('hidden');
                 }

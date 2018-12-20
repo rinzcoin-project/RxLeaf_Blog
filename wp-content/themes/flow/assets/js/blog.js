@@ -47,7 +47,7 @@
     function eltdOnWindowLoad() {
         eltdInitBlogMasonry();
         // eltdSetExpandableTiles();
-        eltdGetInfiniteScrollTriggerPosition();
+        // eltdGetInfiniteScrollTriggerPosition();
     }
 
     /* 
