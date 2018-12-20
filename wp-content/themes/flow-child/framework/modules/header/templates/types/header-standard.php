@@ -26,7 +26,7 @@
                 <div class="log-reg-container">
                     <?php if(!is_user_logged_in()): ?>
                         <div class="log-reg-elm">
-                            <a href="/rxleaf-blog/register"><img src="wp-content/themes/flow-child/assets/img/regis.png" alt="register"  width="40px"></a>
+                            <a href="http://rxleaf.samiscoding.com/register"><img src="http://rxleaf.samiscoding.com/wp-content/themes/flow-child/assets/img/regis.png" alt="register"  width="40px"></a>
                         </div>
                     <?php endif; ?>
                 </div>
