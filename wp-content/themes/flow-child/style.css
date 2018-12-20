@@ -179,7 +179,7 @@ p.eltd-post-excerpt.eltd-long-excerpt {
 a.eltd-btn.eltd-btn-small.eltd-btn-solid.eltd-read-more {
     display: none;
 }
-input[type="text"] {
+input[type="text"], button {
     width: 100%;
     margin-bottom: 13px;
     padding: 10px 25px;
@@ -201,6 +201,14 @@ input[type="text"] {
 }
 button#wpuf-account-update-profile {
     padding: 15px;
+}
+button#bbp_topic_submit {
+    color: white;
+    font-weight: 700;
+    background: #135D2C;
+}
+.eltd-mobile-header .eltd-mobile-nav a, .eltd-mobile-header .eltd-mobile-nav h4 {
+    font-size: 28px;
 }
 .submit-post ul.wpuf-form li .wpuf-label {
     width:15%;
