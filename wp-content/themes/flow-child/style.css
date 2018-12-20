@@ -231,3 +231,6 @@ button#wpuf-account-update-profile {
 .eltd-post-info a.eltd-post-info-comments {
     font-size: 16px;
 }
+li#nav-menu-item-3490 ul {
+    columns: 4;
+}
