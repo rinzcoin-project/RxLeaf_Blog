@@ -243,6 +243,6 @@ li#nav-menu-item-3490 ul {
     columns: 4;
 }
 
-#main-ad-banner-1 {
-    text-align: center;
+.align-center {
+    text-align: center !important;
 }
