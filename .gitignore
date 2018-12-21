@@ -9,7 +9,7 @@
 
 #Ignore
 /wp-config.php
-/wp-updraft/*
+/wp-content/updraft/*
 # Folder to not ignore
 !/wp-content/themes
 !/wp-content/plugins
