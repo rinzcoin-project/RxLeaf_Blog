@@ -246,3 +246,6 @@ li#nav-menu-item-3490 ul {
 .align-center {
     text-align: center !important;
 }
+.eltd-filter-blog-holder {
+    display: none;
+}
