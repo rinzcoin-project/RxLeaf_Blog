@@ -6,10 +6,8 @@
 			<div class="eltd-blog-list-expandable-grid-sizer"></div>
 			<div class="eltd-blog-list-expandable-grid-sizer-gutter"></div>
 			<?php
-			$counter = 0;
 			if($blog_query->have_posts()) : while ( $blog_query->have_posts() ) : $blog_query->the_post();
-				flow_elated_get_post_format_html($blog_type, '', '', $counter);
-				$counter++;
+				flow_elated_get_post_format_html($blog_type);
 
 				
 			endwhile;

@@ -69,6 +69,13 @@ Template: flow
 .log-reg-container {
     float: right;
 }
+.eltd-header-standard .eltd-page-header .eltd-logo-wrapper a {
+    max-height: unset !important;
+}
+.eltd-page-header .eltd-menu-area .eltd-logo-wrapper a, .eltd-page-header .eltd-sticky-header .eltd-sticky-holder .eltd-logo-wrapper a {
+    max-height: 45px !important;
+    vertical-align: bottom !important;
+}
 #wpuf-login-form p {
     display: inline-block;
     font-weight: 800;
@@ -157,18 +164,18 @@ p.eltd-post-excerpt.eltd-long-excerpt {
 .eltd-logo-wrapper a img {
     max-width: 15vw;
 }
-.eltd-expandable-tiles .eltd-post-list h4.eltd-post-title {
+/* .eltd-expandable-tiles .eltd-post-list h4.eltd-post-title {
     font-size: 1rem;
-}
+} */
 #mega-menu-wrap-main-navigation #mega-menu-main-navigation > li.mega-menu-flyout ul.mega-sub-menu {
     width:unset;
     min-width: 250px;
 }
 
 @media only screen and (max-width: 1600px){
-    .eltd-expandable-tiles .eltd-post-list h4.eltd-post-title {
+    /* .eltd-expandable-tiles .eltd-post-list h4.eltd-post-title {
         font-size: 12px !important;
-    }
+    } */
     p.eltd-post-excerpt.eltd-long-excerpt {
         display: none !important;
     }

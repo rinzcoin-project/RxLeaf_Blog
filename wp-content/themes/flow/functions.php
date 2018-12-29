@@ -6,7 +6,7 @@ if(!function_exists('flow_elated_styles')) {
      * Function that includes theme's core styles
      */
     function flow_elated_styles() {
-        wp_register_style('flow_elated_blog', ELATED_ASSETS_ROOT.'/css/blog.min.css');
+        wp_register_style('flow_elated_blog', ELATED_ASSETS_ROOT.'/css/blog.css');
 
         //include theme's core styles
         wp_enqueue_style('flow_elated_default_style', ELATED_ROOT.'/style.css');
