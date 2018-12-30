@@ -41,5 +41,5 @@ footer .eltd-footer-top-holder { background-color: #f6f6f6;}
 .eltd-header-standard .eltd-page-header .eltd-menu-area { height: 80px;}
 
 /* generated in C:\wamp64\www\rxleaf-blog\wp-content\themes\flow\framework\modules\header\custom-styles\mobile-header.php flow_elated_mobile_navigation_styles function */
-.eltd-mobile-header .eltd-mobile-nav a, .eltd-mobile-header .eltd-mobile-nav h4 { font-size: 36px;}
+.eltd-mobile-header .eltd-mobile-nav a, .eltd-mobile-header .eltd-mobile-nav h4 { font-family: Open Sans;font-size: 14px;line-height: 14px;font-weight: 700;}
 

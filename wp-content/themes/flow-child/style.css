@@ -76,6 +76,10 @@ Template: flow
     max-height: 45px !important;
     vertical-align: bottom !important;
 }
+.eltd-main-menu ul li a {
+    font-size:14px !important;
+    font-weight:700 !important;
+}
 #wpuf-login-form p {
     display: inline-block;
     font-weight: 800;
