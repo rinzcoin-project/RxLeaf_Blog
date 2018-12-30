@@ -31,6 +31,9 @@
 /* generated in C:\wamp64\www\rxleaf-blog\wp-content\themes\flow\assets\custom-styles\general-custom-styles.php flow_elated_design_styles function */
 .eltd-boxed .eltd-wrapper { background-attachment: fixed;}
 
+/* generated in C:\wamp64\www\rxleaf-blog\wp-content\themes\flow\assets\custom-styles\general-custom-styles.php flow_elated_text_styles function */
+p { font-family: Lato;font-size: 18px;font-weight: 400;}
+
 /* generated in C:\wamp64\www\rxleaf-blog\wp-content\themes\flow\framework\modules\footer\custom-styles\custom-styles.php flow_elated_set_footer_top_styles function */
 footer .eltd-footer-top-holder { background-color: #f6f6f6;}
 

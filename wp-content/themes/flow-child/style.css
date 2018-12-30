@@ -260,3 +260,6 @@ li#nav-menu-item-3490 ul {
 .eltd-filter-blog-holder {
     display: none;
 }
+.eltd-container-inner {
+    width: 100% !important;
+}
