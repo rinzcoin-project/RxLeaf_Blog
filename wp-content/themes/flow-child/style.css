@@ -126,6 +126,11 @@ ul.wpuf-form.form-label-above li .wpuf-label {
     margin-bottom: 10px;
     margin-top: 10px;
 }
+.wpuf-dashboard-container.sam {
+    display: block;
+    max-width: 75%;
+    margin: auto;
+}
 .wpuf-dashboard-container.sam .wpuf-dashboard-navigation a {
     text-decoration: none;
     box-shadow: none;
@@ -134,6 +139,7 @@ ul.wpuf-form.form-label-above li .wpuf-label {
     font-weight: 700;
     display: block;
     padding: 0px 3px;
+    color: #606060;
 }
 nav.wpuf-dashboard-navigation {
     background: white;
@@ -158,6 +164,10 @@ nav.wpuf-dashboard-navigation {
 }
 .wpuf-dashboard-container .wpuf-dashboard-content {
     float: unset !important;
+}
+.wpuf-user-profile-wrap ul.wpuf-user-profile {
+    float: unset !important;
+    width: unset !important;
 }
 form, textarea {
     color: black !important;
@@ -262,4 +272,47 @@ li#nav-menu-item-3490 ul {
 }
 .eltd-container-inner {
     width: 100% !important;
+}
+
+/* PROFILE */
+ul.wpuf-user-profile {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #606060;
+}
+ul.wpuf-user-profile .wpuf-profile-value {
+    float: unset;
+    width: unset;
+}
+ul.wpuf-user-profile li {
+    margin: 10px auto !important;
+    padding: 0 15px;
+}
+ul.wpuf-post-title li {
+    display: inline-block;
+}
+ul.wpuf-post-title li:after {
+    
+}
+ul.wpuf-user-profile li label {
+    display:none;
+}
+.sam-box-shadow {
+    box-shadow: 0 0.0625rem 0.25rem 0 rgba(0,0,0,0.1);
+}
+.single-user-box .user-pic img {
+    border: 5px solid #C2C6CA;
+}
+.sam-text-align-center {
+    text-align: center;
+}
+.sam-user-dashboard img{
+    display: block;
+    margin: 15px auto;
+}
+/* FORUMS */
+.eltd-two-columns-66-33.eltd-sidebar.clearfix {
+    max-width: 75%;
+    margin: auto;
 }

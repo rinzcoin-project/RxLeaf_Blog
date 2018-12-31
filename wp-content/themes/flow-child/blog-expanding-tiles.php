@@ -6,7 +6,12 @@ Template Name: Blog: Expanding Tiles
 <?php get_header(); ?>
 	<div class="eltd-full-width">
 		<?php do_action('flow_elated_after_container_open'); ?>
-		<div id="main-page-id"><?php the_content() ?></div>
+		<div id="main-page-id">
+			<?php /* Start the Loop */ ?>
+			<?php while(have_posts()) : the_post(); ?>
+			<?php the_content();?>
+			<?php endwhile; ?>
+		</div>
 		<div class="eltd-full-width-inner">
 			<?php flow_elated_get_blog('expanding-tiles'); ?>
 		</div>

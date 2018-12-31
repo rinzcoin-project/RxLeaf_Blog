@@ -14,11 +14,26 @@
                                 continue;
                             }
                         }
-                        echo sprintf(
-                            '<li><a href="%s">%s</a></li>',
-                            add_query_arg( array( 'section' => $section['slug'] ), get_permalink() ),
-                            $section['label']
-                        );
+                        if( 'invoices' == $section['slug']){
+                            continue;
+                        }
+                        if( 'dashboard' == $section['slug']) {
+                            echo sprintf(
+                                '<li><a href="%s">%s</a></li>',
+                                add_query_arg( array( 'section' => $section['slug'] ), get_permalink() ),
+                                $section['label']
+                            );
+                            echo sprintf(
+                                '<li><a href="%s" target="_blank">View Profile</a></li>',
+                                esc_url( add_query_arg( array( 'user_id' => get_current_user_id() ), get_permalink( get_page_by_path( 'members' ) ) ) ));
+                        } else {
+                            echo sprintf(
+                                '<li><a href="%s">%s</a></li>',
+                                add_query_arg( array( 'section' => $section['slug'] ), get_permalink() ),
+                                $section['label']
+                            );
+                        }
+
                     }
                 }
             ?>

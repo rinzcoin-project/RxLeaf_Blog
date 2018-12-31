@@ -17,7 +17,12 @@ if($slider_position !== 'above_content'){
 ?>
 
 	<div class="eltd-full-width">
-	<div id="main-page-id"><?php the_content() ?></div>
+	<div id="main-page-id">
+		<?php /* Start the Loop */ ?>
+		<?php while(have_posts()) : the_post(); ?>
+		<?php the_content();?>
+		<?php endwhile; ?>
+	</div>
 		<div class="eltd-full-width-inner clearfix">
 			<?php flow_elated_get_blog('masonry-full-width'); ?>
 		</div>

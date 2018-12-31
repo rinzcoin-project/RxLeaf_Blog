@@ -27,7 +27,7 @@
 
 <?php if ( bbp_current_user_can_access_create_topic_form() ) : ?>
 
-	<div id="new-topic-<?php bbp_topic_id(); ?>" class="bbp-topic-form">
+	<div id="new-topic-<?php bbp_topic_id(); ?>" class="bbp-topic-form sam-box-shadow" style="background:white;">
 
 		<form id="new-post" name="new-post" method="post" action="<?php the_permalink(); ?>">
 
@@ -40,7 +40,7 @@
 						if ( bbp_is_topic_edit() )
 							printf( __( 'Now Editing &ldquo;%s&rdquo;', 'bbpress' ), bbp_get_topic_title() );
 						else
-							bbp_is_single_forum() ? printf( __( 'WALAD Create New Topic in &ldquo;%s&rdquo;', 'bbpress' ), bbp_get_forum_title() ) : _e( 'Create New Topic', 'bbpress' );
+							bbp_is_single_forum() ? printf( __( 'Create New Topic in &ldquo;%s&rdquo;', 'bbpress' ), bbp_get_forum_title() ) : _e( 'Create New Topic', 'bbpress' );
 					?>
 
 				</legend>

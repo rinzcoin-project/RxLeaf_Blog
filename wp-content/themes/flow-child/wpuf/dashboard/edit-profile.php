@@ -4,7 +4,7 @@ global $current_user;
 ob_start();
 
 ?>
-
+<div><?php var_dump($current_user) ?></div>
 <form class="wpuf-form wpuf-update-profile-form" action="" method="post">
 
     <div style="display: none;" class="wpuf-success"><?php _e( 'Profile updated successfully!', 'wp-user-frontend' ); ?></div>

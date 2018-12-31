@@ -23,13 +23,6 @@
                     </div>
                 </div>
                 <div class="eltd-position-right">
-                <div class="log-reg-container">
-                    <?php if(!is_user_logged_in()): ?>
-                        <div class="log-reg-elm">
-                            <a href="http://rxleaf.samiscoding.com/register"><img src="http://rxleaf.samiscoding.com/wp-content/themes/flow-child/assets/img/regis.png" alt="register"  width="40px"></a>
-                        </div>
-                    <?php endif; ?>
-                </div>
                     <div class="eltd-position-right-inner">
                         <?php if(is_active_sidebar('eltd-right-from-main-menu')) : ?>
                             <?php dynamic_sidebar('eltd-right-from-main-menu'); ?>
