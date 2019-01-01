@@ -259,13 +259,13 @@ if(!function_exists('flow_elated_loading_spinner_fussion')) {
 
 if(!function_exists('flow_elated_loading_spinner_wave_circles')) {
     function flow_elated_loading_spinner_wave_circles(){
-        $html = '';
-        $html .= '<div class="wave_circles">';
-        $html .= '<div class="ball ball-1"></div>';
-		$html .= '<div class="ball ball-2"></div>';
-		$html .= '<div class="ball ball-3"></div>';
-		$html .= '<div class="ball ball-4"></div>';
-        $html .= '</div>';
+        $html = '<img src="http://localhost/rxleaf-blog/wp-content/uploads/2018/12/favicon-96x96.png" class="sam-rxleaf-spinner"/>';
+        // $html .= '<div class="wave_circles">';
+        // $html .= '<div class="ball ball-1"></div>';
+		// $html .= '<div class="ball ball-2"></div>';
+		// $html .= '<div class="ball ball-3"></div>';
+		// $html .= '<div class="ball ball-4"></div>';
+        // $html .= '</div>';
         return $html;
     }
 }

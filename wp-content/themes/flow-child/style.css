@@ -313,6 +313,57 @@ ul.wpuf-user-profile li label {
 }
 /* FORUMS */
 .eltd-two-columns-66-33.eltd-sidebar.clearfix {
-    max-width: 75%;
+    max-width: 95%;
     margin: auto;
+}
+.sam-posts-card {
+    width: 24%;
+    display: inline-block;
+    background: white;
+    vertical-align: top;
+}
+.sam-posts-card .wp-caption, .sam-posts-card img {
+    min-width: 100%;
+    height: auto;
+}
+.sam-homepage-ad-sidebar {
+    float: right;
+}
+.sam-home-display-posts {
+    text-align: center;
+}
+.sam-home-display-posts article {
+    max-width: 24%;
+    display: inline-block;
+    margin-right:30px;
+    vertical-align: top;
+}
+.single-blog-ad-bottom {
+    text-align: center;
+}
+/* PRELOADER SPINNER */
+.sam-rxleaf-spinner {
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+.left {
+    float:left;
+}
+.right {
+    float: right;
+}
+.center {
+    float: unset;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+@media only screen and (max-width: 768px) {
+    .sam-home-display-posts article {
+        max-width:50%;
+        min-width:45%;
+    }
+
 }

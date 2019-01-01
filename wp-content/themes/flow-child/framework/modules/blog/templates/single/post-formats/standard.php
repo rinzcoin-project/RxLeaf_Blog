@@ -32,13 +32,12 @@
 		</div>
 	</div>
 	<div class="sam-double-ad-container">
-	
-		<div class="grey-box left ad-box" ></div>
-		<div class="grey-box center ad-box" ></div>
-		<div class="grey-box right ad-box" ></div>
+	<div class="left ad-box" data-mantis-zone='detail-inline-1'></div>
+		<div class="right ad-box" data-mantis-zone='detail-inline-2'></div>
+		<div class="center ad-box" data-mantis-zone='list-inline-1'></div>
 
 
 	</div>
 	<?php do_action('flow_elated_before_blog_article_closed_tag'); ?>
-	<div class="ad-banner-space"></div>
+	<div data-mantis-zone="dsk-banner-ad-a" class="single-blog-ad-bottom"></div>
 </article>

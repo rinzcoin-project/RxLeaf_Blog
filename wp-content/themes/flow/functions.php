@@ -35,7 +35,7 @@ if(!function_exists('flow_elated_styles')) {
         //is responsive option turned on?
         if(flow_elated_is_responsive_on()) {
             wp_enqueue_style('flow_elated_modules_responsive', ELATED_ASSETS_ROOT.'/css/modules-responsive.min.css');
-            wp_enqueue_style('flow_elated_blog_responsive', ELATED_ASSETS_ROOT.'/css/blog-responsive.min.css');
+            wp_enqueue_style('flow_elated_blog_responsive', ELATED_ASSETS_ROOT.'/css/blog-responsive.css');
 
             //include proper styles
             if(file_exists(ELATED_ROOT_DIR.'/assets/css/style_dynamic_responsive.css') && flow_elated_is_css_folder_writable() && !is_multisite()) {
@@ -144,10 +144,12 @@ if(!function_exists('flow_elated_scripts')) {
         //include google map api script
         wp_enqueue_script('google_map_api', '//maps.googleapis.com/maps/api/js', array(), false, true);
 
-        wp_enqueue_script('flow_elated_modules', ELATED_ASSETS_ROOT.'/js/modules.min.js', array('jquery'), false, true);
+        // wp_enqueue_script('flow_elated_modules', ELATED_ASSETS_ROOT.'/js/modules.min.js', array('jquery'), false, true);
+        wp_enqueue_script('flow_elated_modules', ELATED_ASSETS_ROOT.'/js/modules.js', array('jquery'), false, true); 
 
         if(flow_elated_load_blog_assets()) {
-            wp_enqueue_script('flow_elated_blog', ELATED_ASSETS_ROOT.'/js/blog.min.js', array('jquery'), false, true);
+            // wp_enqueue_script('flow_elated_blog', ELATED_ASSETS_ROOT.'/js/blog.min.js', array('jquery'), false, true);
+            wp_enqueue_script('flow_elated_blog', ELATED_ASSETS_ROOT.'/js/blog.js', array('jquery'), false, true);
         }
 
         //include comment reply script

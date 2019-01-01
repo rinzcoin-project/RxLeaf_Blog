@@ -16,13 +16,13 @@
 			endif;
 			?>
 		</div>
-		<div class="mantis-ad-banner align-center expanding-tiles" data-mantis-zone="dsk-box-ad-a"></div>
 		<?php
 		if(flow_elated_options()->getOptionValue('pagination') == 'yes') {
 			flow_elated_pagination($blog_query->max_num_pages, $blog_page_range, $paged, $blog_type);
 		}
 		?>
 	</div>
+	<div class="mantis-ad-banner align-center expanding-tiles" data-mantis-zone="dsk-box-ad-a"></div>
 	
 </div>
 
