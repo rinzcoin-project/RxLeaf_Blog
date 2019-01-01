@@ -14,7 +14,7 @@
 </head>
 
 <body <?php body_class();?>>
-
+<div id="wptime-plugin-preloader"></div>
 
 <?php 
 if((!isset($_POST["ajaxReq"]) || $_POST["ajaxReq"] != 'yes') && flow_elated_options()->getOptionValue('smooth_page_transitions') == "yes") {
