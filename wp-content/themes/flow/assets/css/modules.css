@@ -191,7 +191,7 @@ h6 {
 h1, h2, h3, h4, h5, h6 {
   color: #000;
   text-transform: uppercase;
-  font-family: "Oswald", sans-serif;
+  font-family: "Open Sans", sans-serif;
   letter-spacing: 0;
 }
 
@@ -4226,7 +4226,7 @@ body.error404 .eltd-content-inner {
 
 #eltd-back-to-top .eltd-back-to-top-text {
   text-transform: uppercase;
-  font-family: "Oswald", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   color: #ffffff;
   position: absolute;
@@ -5585,7 +5585,7 @@ body.eltd-dropdown-slide-from-left.eltd-drop-down .narrow .second .inner ul li:h
   text-decoration: none;
   text-transform: uppercase;
   margin: 8px 0;
-  font-family: "Oswald", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 11px;
   letter-spacing: 1.5px;
   background-color: transparent;
@@ -5786,7 +5786,7 @@ body.eltd-dropdown-slide-from-left.eltd-drop-down .narrow .second .inner ul li:h
   position: relative;
   color: #606060;
   text-transform: uppercase;
-  font-family: "Oswald", sans-serif;
+  font-family: "Open Sans", sans-serif;
   letter-spacing: 1.5px;
 }
 
@@ -8423,7 +8423,7 @@ footer .widget ul li {
   line-height: 22px;
   font-size: 14px;
   font-weight: 400;
-  font-family: "Oswald", sans-serif;
+  font-family: "Open Sans", sans-serif;
   text-transform: capitalize;
   letter-spacing: 0;
   color: #8c8c8c;
@@ -8431,14 +8431,14 @@ footer .widget ul li {
 
 aside.eltd-sidebar .widget ul li.cat-item,
 footer .widget ul li.cat-item {
-  font-family: "Oswald", sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 aside.eltd-sidebar .widget ul li a,
 footer .widget ul li a {
   font-size: 14px;
   font-weight: 400;
-  font-family: "Oswald", sans-serif;
+  font-family: "Open Sans", sans-serif;
   text-transform: capitalize;
   letter-spacing: 0;
   color: #8c8c8c;
@@ -8502,7 +8502,7 @@ footer .widget .tagcloud a {
   text-transform: capitalize;
   color: #8c8c8c;
   letter-spacing: 0;
-  font-family: "Oswald", sans-serif;
+  font-family: "Open Sans", sans-serif;
   line-height: 25px;
 }
 
@@ -9094,7 +9094,7 @@ footer .eltd-social-icon-widget-holder {
   border: none;
   color: #ffffff;
   outline: none;
-  font-family: "Oswald", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 11px;
   line-height: 18px;
   text-transform: uppercase;
@@ -9323,7 +9323,7 @@ footer .eltd-social-icon-widget-holder {
 }
 
 .eltd-landing-bottom-section .eltd-landing-item-title h3 {
-  font-family: "Oswald", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   line-height: 30px;
   padding: 30px 0 50px;
