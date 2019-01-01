@@ -97,3 +97,12 @@ function flow_elated_get_blog_query($query = ''){
 	return $blog_query;
 	
 }
+
+// SAM- REMOVE QUERY STRINGS
+function remove_css_js_ver( $src ) {
+	if( strpos( $src, '?ver=' ) )
+	$src = remove_query_arg( 'ver', $src );
+	return $src;
+	}
+	add_filter( 'style_loader_src', 'remove_css_js_ver', 10, 2 );
+	add_filter( 'script_loader_src', 'remove_css_js_ver', 10, 2 ); 
