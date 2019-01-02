@@ -12,6 +12,11 @@ Template: flow
     color: white;
     font-size: 2.5em;
 }
+p {
+    margin-bottom: 15px !important;
+    color: black;
+    font-weight: 500;
+}
 h2, h3, h4, h5, h6 {
     font-weight: 700;
 }
@@ -272,6 +277,9 @@ li#nav-menu-item-3490 ul {
 }
 .eltd-filter-blog-holder {
     display: none;
+}
+.eltd-post-image {
+    text-align: center;
 }
 .eltd-container-inner {
     width: 100% !important;
