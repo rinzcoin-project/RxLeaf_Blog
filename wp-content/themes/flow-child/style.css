@@ -189,7 +189,7 @@ nav.wpuf-dashboard-navigation {
 }
 .wpuf-dashboard-container .wpuf-dashboard-content {
     float: unset !important;
-    width: unset !important;
+    width: 100% !important;
 }
 .wpuf-user-profile-wrap ul.wpuf-user-profile {
     float: unset !important;
