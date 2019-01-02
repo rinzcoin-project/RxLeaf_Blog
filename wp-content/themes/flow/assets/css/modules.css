@@ -26,7 +26,7 @@ aside.eltd-sidebar {
  * Color codes
 
  * Accent color: #58bcb3 - #58bcb3
- * Background: #f6f6f6 - #f6f6f6
+ * Background: #F2F2F2 - #F2F2F2
  * Content: #8d8c8c - #8d8c8c
  * Header h1: #000
  * Header h2: #000
@@ -147,7 +147,7 @@ body {
   line-height: 21px;
   color: #8d8c8c;
   font-weight: 400;
-  background-color: #f6f6f6;
+  background-color: #F2F2F2;
   overflow-x: hidden !important;
   -webkit-font-smoothing: antialiased;
 }
@@ -238,7 +238,7 @@ ul, ol {
 }
 
 pre {
-  background-color: #f6f6f6;
+  background-color: #F2F2F2;
   padding: 15px;
   max-width: 100%;
   white-space: pre-wrap;
@@ -310,13 +310,13 @@ blockquote cite {
 /* Webkit */
 ::selection {
   background: #58bcb3;
-  color: #f6f6f6;
+  color: #F2F2F2;
 }
 
 /* Gecko/Mozilla */
 ::-moz-selection {
   background: #58bcb3;
-  color: #f6f6f6;
+  color: #F2F2F2;
 }
 
 .wp-caption,
@@ -359,7 +359,7 @@ blockquote cite {
 }
 
 .eltd-wrapper {
-  background-color: #f6f6f6;
+  background-color: #F2F2F2;
   position: relative;
   z-index: 1000;
   -webkit-transition: left 0.33s cubic-bezier(0.694, 0.0482, 0.335, 1);
@@ -381,7 +381,7 @@ blockquote cite {
   margin-top: 0;
   position: relative;
   z-index: 100;
-  background-color: #f6f6f6;
+  background-color: #F2F2F2;
   /*this is needed because of the uncovering footer*/
 }
 
@@ -466,7 +466,7 @@ article .eltd-content .eltd-content-inner > .eltd-full-width > .eltd-full-width-
   bottom: 0;
   z-index: 2000;
   text-align: center;
-  background-color: #f6f6f6;
+  background-color: #F2F2F2;
 }
 
 .eltd-smooth-transition-loader .eltd-preloader-logo {
@@ -479,7 +479,7 @@ article .eltd-content .eltd-content-inner > .eltd-full-width > .eltd-full-width-
 }
 
 .eltd-container {
-  background-color: #f6f6f6;
+  background-color: #F2F2F2;
   position: relative;
   padding: 0;
   width: 100%;
@@ -4010,7 +4010,7 @@ input.wpcf7-form-control.wpcf7-submit:hover {
   position: absolute;
   width: 64px;
   height: 64px;
-  background-color: #f6f6f6;
+  background-color: #F2F2F2;
 }
 
 .eltd-owl-slider .owl-buttons .eltd-prev-icon-holder .eltd-prev-icon-triangle,
@@ -7527,8 +7527,8 @@ footer .eltd-footer-bottom-holder .widget .eltd-footer-widget-title {
   transform: translateY(-50%);
   width: 30%;
   display: block;
-  border-left: 7px solid #f6f6f6;
-  border-right: 7px solid #f6f6f6;
+  border-left: 7px solid #F2F2F2;
+  border-right: 7px solid #F2F2F2;
   text-align: center;
   padding-top: 15px;
   padding-bottom: 26px;
@@ -7600,7 +7600,7 @@ footer .eltd-footer-bottom-holder .widget .eltd-footer-widget-title {
   position: absolute;
   width: 64px;
   height: 64px;
-  background-color: #f6f6f6;
+  background-color: #F2F2F2;
 }
 
 .eltd-blog-carousel.eltd-slider .eltd-blog-slide-arrow .eltd-prev-icon-holder .eltd-prev-icon-triangle,
@@ -7684,8 +7684,8 @@ footer .eltd-footer-bottom-holder .widget .eltd-footer-widget-title {
   transform: translateY(-50%);
   width: 50%;
   display: block;
-  border-left: 7px solid #f6f6f6;
-  border-right: 7px solid #f6f6f6;
+  border-left: 7px solid #F2F2F2;
+  border-right: 7px solid #F2F2F2;
   text-align: center;
   padding-top: 15px;
   padding-bottom: 26px;
@@ -8921,7 +8921,7 @@ footer .eltd-instagram-feed.carousel .owl-buttons .eltd-next-icon-holder .eltd-n
   position: absolute;
   width: 46px;
   height: 46px;
-  background-color: #f6f6f6;
+  background-color: #F2F2F2;
 }
 
 aside.eltd-sidebar .eltd-instagram-feed.carousel .owl-buttons .eltd-prev-icon-holder .eltd-prev-icon-triangle,

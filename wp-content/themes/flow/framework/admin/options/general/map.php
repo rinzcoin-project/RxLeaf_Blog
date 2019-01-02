@@ -128,7 +128,7 @@ if ( ! function_exists('flow_elated_general_options_map') ) {
                 'name'          => 'page_background_color',
                 'type'          => 'color',
                 'label'         => 'Page Background Color',
-                'description'   => 'Choose the background color for page content. Default color is #f6f6f6',
+                'description'   => 'Choose the background color for page content. Default color is #F2F2F2',
                 'parent'        => $panel_design_style
             )
         );
