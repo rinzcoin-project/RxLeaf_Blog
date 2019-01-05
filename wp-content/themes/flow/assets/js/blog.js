@@ -355,7 +355,7 @@
             eltdET.minImportance = 20000;
 
             eltdET.empty_item_holder =
-                '<div class="eltd-blog-list-expandable-item eltd-blei-h-1 eltd-blei-post eltd-blei-temp">\
+                '<div class="samalo eltd-blei-h-1 eltd-blei-post eltd-blei-temp">\
                     <div class="eltd-blei-inner">\
                         <div class="eltd-blei-upper-wrapper"></div>\
                         <div class="eltd-blei-lower-wrapper">\
@@ -471,7 +471,7 @@
                     });
                     eltdET.grid.isotope();
                     setTimeout(function() {    
-                        eltdET.analyze_rows();
+                        // eltdET.analyze_rows();
                         $('.owl-carousel').each(function() {
                             var owlCar = $(this).data('owlCarousel');
                         if (typeof owlCar !== 'undefined') owlCar.reinit();
@@ -690,14 +690,14 @@
                 });
             };
 
-            eltdET.analyze_rows = function() {
-                eltdET.items.each(function() {
-                    var upper = $(this).find('.eltd-blei-upper-wrapper');
-                    var opposite = {even: 'odd', odd: 'even'};
-                    var row_class = Math.round(parseInt($(this).css('top'),10) / $(this).outerHeight()) % 2 == 0 ? 'even' : 'odd';
-                    upper.addClass(row_class).removeClass(opposite[row_class]).width(upper.width()).height(upper.height());
-                });
-            };
+            // eltdET.analyze_rows = function() {
+            //     eltdET.items.each(function() {
+            //         var upper = $(this).find('.eltd-blei-upper-wrapper');
+            //         var opposite = {even: 'odd', odd: 'even'};
+            //         var row_class = Math.round(parseInt($(this).css('top'),10) / $(this).outerHeight()) % 2 == 0 ? 'even' : 'odd';
+            //         upper.addClass(row_class).removeClass(opposite[row_class]).width(upper.width()).height(upper.height());
+            //     });
+            // };
 
             eltdET.getAllPositions = function() {
                 var positions = [];
@@ -764,7 +764,7 @@
 
                 function perform_expansion($item) {
                     eltdET.grid.off('layoutComplete');
-                    eltdET.analyze_rows();
+                    // eltdET.analyze_rows();
                     $('html, body').animate({scrollTop: $item.offset().top - eltdGlobalVars.vars.eltdTopBarHeight - $('.eltd-page-header').is(':visible') * Math.max(eltdGlobalVars.vars.eltdStickyHeaderHeight, eltdGlobalVars.vars.eltdStickyHeaderTransparencyHeight) /*- $('.eltd-mobile-header').is(':visible') * (typeof eltdGlobalVars.vars.eltdMobileHeaderHeight !== 'undefined' ? eltdGlobalVars.vars.eltdMobileHeaderHeight : 0)*/ +'px'}, 300, 'swing');
                     $item.css('transition','');
                     upper_wrapper
@@ -914,7 +914,7 @@
                             else {
                                 eltdET.grid.isotope({sortBy: 'original-order'}).on('layoutComplete', function() {
                                     $(this).off('layoutComplete');
-                                    eltdET.analyze_rows();
+                                    // eltdET.analyze_rows();
                                 });
                             }
                         });
@@ -929,7 +929,7 @@
                         else {
                             eltdET.grid.isotope({sortBy: 'original-order'}).on('layoutComplete', function() {
                                 $(this).off('layoutComplete');
-                                eltdET.analyze_rows();
+                                // eltdET.analyze_rows();
                             });
                         }
                     }
@@ -993,7 +993,7 @@
                                 reinit_timeout = eltdET.layoutDuration*1000;
                             break;
                         }
-                        eltdET.analyze_rows();
+                        // eltdET.analyze_rows();
                         
                         setTimeout(function() {
                             eltd.modules.ajax.eltdReinitiateAll( eltdET.modulesToExclude );

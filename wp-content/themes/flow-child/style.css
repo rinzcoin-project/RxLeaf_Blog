@@ -379,6 +379,39 @@ ul.wpuf-user-profile li label {
     -moz-animation:spin 4s linear infinite;
     animation:spin 4s linear infinite;
 }
+
+
+/* .rx-expandingtiles article[style] {
+    position: unset !important;
+    display: inline-block !important;
+    min-width: 30%;
+    height: auto !important;
+}
+.rx-expandingtiles.eltd-blog-holder.eltd-blog-type-expanding-tiles .eltd-blog-list-expandable-item .eltd-blei-upper-wrapper[style] {
+    position: unset !important;
+    overflow: unset !important;
+    height: auto !important;
+}
+.eltd-blog-holder.eltd-blog-type-expanding-tiles .eltd-blog-list-expandable-item .eltd-blei-inner {
+    position: unset !important;
+    overflow: unset !important;
+}
+.rx-expandingtiles.eltd-blog-holder.eltd-blog-type-expanding-tiles .eltd-blog-list-expandable-item .eltd-blei-upper-wrapper .image-container {
+    position: unset !important;
+        -webkit-transform: unset;
+        -moz-transform: unset;
+        transform:unset;
+        -webkit-transition: unset;
+        -moz-transition: unset;
+        transition: unset;
+        min-height: 250px;
+}
+.rx-expandingtiles.eltd-blog-holder.eltd-blog-type-expanding-tiles .eltd-blog-list-expandable-item .eltd-blei-inner {
+    height: auto !important;
+}
+.rx-expandingtiles.eltd-blog-holder.eltd-blog-type-expanding-tiles .eltd-blog-list-expandable-item .eltd-blei-upper-wrapper .description-container {
+    position: unset !important;
+} */
 .left {
     float:left;
 }

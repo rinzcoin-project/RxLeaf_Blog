@@ -1,4 +1,4 @@
-<div class="<?php echo esc_attr($blog_classes)?>" data-blog-type="<?php echo esc_attr($blog_type)?>" <?php echo esc_attr(flow_elated_set_blog_holder_data_params()); ?> >
+<div class="<?php echo esc_attr($blog_classes)?> rx-expandingtiles" data-blog-type="<?php echo esc_attr($blog_type)?>" <?php echo esc_attr(flow_elated_set_blog_holder_data_params()); ?> >
 	
 	<div class="eltd-expandable-tiles ">
 		
