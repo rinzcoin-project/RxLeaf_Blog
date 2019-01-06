@@ -333,6 +333,19 @@ li#nav-menu-item-3490 ul {
         -webkit-transform: translate3d(0, -0.125rem, 0);
         transform: translate3d(0, -0.125rem, 0);
 }
+i.eltd-icon-font-awesome.fa.fa-search {
+    vertical-align: bottom;
+    margin-top: 50%;
+    line-height: 100%;
+    height: 100%;
+    font-size: 1.5rem;
+}
+.widget_eltd_search .eltd-search-holder .eltd-search-form-holder input {
+    font-size: 18px;
+}
+.rx-expandingtiles .eltd-post-info.eltd-category {
+    display: none;
+}
 .eltd-blog-holder.eltd-blog-type-masonry article .eltd-post-title {
     margin-bottom: 0px;
 }

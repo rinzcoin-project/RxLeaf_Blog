@@ -950,6 +950,9 @@ function eltdInitVideoBackground(){
     function eltdInitSearchWidget() {
 
         var searchWidgets = $('.eltd-search-holder ');
+        searchWidgets.addClass( 'eltd-search-open' );
+        var searchInput = searchWidgets.find('input');
+        searchInput.focus();
 
         if ( searchWidgets.length ) {
             searchWidgets.each(function() {
@@ -1006,7 +1009,7 @@ function eltdInitVideoBackground(){
 
 
                         } else {
-                            searchWidget.removeClass( 'eltd-search-open' );
+                            // searchWidget.removeClass( 'eltd-search-open' );
                         }
                     } else {
                         searchWidget.addClass( 'eltd-search-open' );
