@@ -12,7 +12,7 @@ Template Name: Blog: Expanding Tiles
 			<?php the_content();?>
 			<?php endwhile; ?>
 		</div>
-		<div class="eltd-full-width-inner">
+		<div class="eltd-full-width-inner rx-home-page">
 			<?php flow_elated_get_blog('expanding-tiles'); ?>
 		</div>
 		<aside class="sam-homepage-ad-sidebar"><?php dynamic_sidebar('home-ad-sidebar'); ?></aside>
@@ -32,7 +32,7 @@ Template Name: Blog: Expanding Tiles
 											'category_name' => 'library',
 											'orderby' => 'comment_count',
 										);
-										flow_elated_get_blog_type('masonary','default', $posts_args);
+										flow_elated_get_blog_type('masonary','sidebar-25-right', $posts_args);
 									?>
 	</div>
 <?php get_footer(); ?>

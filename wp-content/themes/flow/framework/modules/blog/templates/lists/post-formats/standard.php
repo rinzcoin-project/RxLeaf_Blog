@@ -40,6 +40,7 @@ $image_params = array(
 				</div>
 				<?php flow_elated_get_module_template_part('templates/lists/parts/title', 'blog', '', $params); ?>
 				<?php
+				$excerpt_length = $excerpt_length || 30;
 					flow_elated_excerpt($excerpt_length);
 					$args_pages = array(
 							'before'           => '<div class="eltd-single-links-pages"><div class="eltd-single-links-pages-inner">',

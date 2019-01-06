@@ -452,7 +452,7 @@ if(!function_exists('flow_elated_excerpt')) {
 		//is word count set to something different that 0?
 		elseif($excerpt_length != '0') {
 			//if word count is set and different than empty take that value, else that general option from theme options
-			$word_count = '45';
+			$word_count = '100';
 			if(isset($excerpt_length) && $excerpt_length != ""){
 				$word_count = $excerpt_length;
 
